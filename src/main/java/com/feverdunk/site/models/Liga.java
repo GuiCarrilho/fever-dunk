@@ -1,6 +1,7 @@
 package com.feverdunk.site.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +23,11 @@ public class Liga {
     private Long id;
 
     @Column(name = "descricao")
-    @NotNull
+    @NotBlank
     private String descricao;
 
     @Column(name = "senha")
-    @NotNull
+    @NotBlank
     private String senha;
 
     @OneToMany(mappedBy = "liga")
