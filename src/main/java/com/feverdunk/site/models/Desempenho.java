@@ -36,5 +36,4 @@ public class Desempenho {
     @ManyToOne
     @JoinColumn(name = "jogador_id")
     private Jogador jogador;
-
 }

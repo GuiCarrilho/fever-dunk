@@ -43,7 +43,6 @@ public class Jogador {
 
     @OneToMany(mappedBy = "jogador")
     private List<Desempenho> desempenhos;
-
 }
 
 
