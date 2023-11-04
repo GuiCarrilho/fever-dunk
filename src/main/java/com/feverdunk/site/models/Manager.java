@@ -19,6 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Manager {
 
+    public Manager(String nome, String email, String senha, int dinheiro, boolean premium) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.dinheiro = dinheiro;
+        this.premium = premium;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
