@@ -32,14 +32,17 @@ public class Jogador {
 
     @Column(name = "altura")
     @NotNull
+    @Min(value = 1)
     private int altura;
 
     @Column(name = "idade")
     @NotNull
+    @Min(value = 1)
     private int idade;
 
     @Column(name = "valor")
     @NotNull
+    @Min(value = 0)
     private int valor;
 
     @Column(name = "time_real")
@@ -48,14 +51,10 @@ public class Jogador {
 
     @Column(name = "pontuacao")
     @NotNull
+    @Min(value = 0)
     private int pontuacao;
 
     @OneToMany(mappedBy = "jogador")
     private List<Desempenho> desempenhos;
-
-    @OneToMany(mappedBy = "jogador")
-    private List<Contrato> contratos;
-
 }
-
 
