@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class Desempenho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "desempenho_id")
     private Long id;
 
     @Column(name = "data")

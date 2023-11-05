@@ -21,6 +21,7 @@ import java.util.List;
 public class Liga {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "liga_id")
     private Long id;
 
     @Column(name = "descricao")

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Time")
+@Table(name = "times")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,9 +20,10 @@ public class Time {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "time_id")
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "time_nome")
     private String nome;
 
     @Column(name = "pontuação")

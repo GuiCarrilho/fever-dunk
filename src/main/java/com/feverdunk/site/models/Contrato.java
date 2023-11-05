@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 public class Contrato {
     @Id
     @ManyToOne
-    @JoinColumn(name = "jogador_id")
+    @JoinColumn(name = "jogador_id_contrato")
     private Jogador jogador;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "time_id")
+    @JoinColumn(name = "time_id_contrato",  referencedColumnName = "time_id")
     private Time time;
 
     @Column(name = "adquirido_em")

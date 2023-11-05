@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class Participacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "participacao_id")
     private Long id;
 
     @Column(name = "data")
@@ -30,6 +31,6 @@ public class Participacao {
     private Liga liga;
 
     @ManyToOne
-    @JoinColumn(name = "time_id")
+    @JoinColumn(name = "time_id", referencedColumnName = "time_id")
     private Time time;
 }

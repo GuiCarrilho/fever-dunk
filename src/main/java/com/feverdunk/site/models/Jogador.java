@@ -21,9 +21,10 @@ import java.util.List;
 public class Jogador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "jogador_id")
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "jogador_nome")
     @NotBlank
     private String nome;
 

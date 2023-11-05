@@ -30,6 +30,7 @@ public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "manager_id")
     private Long id;
 
     @Column(name = "nome")
@@ -55,6 +56,6 @@ public class Manager {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "time_id", referencedColumnName = "id")
+    @JoinColumn(name = "time_id", referencedColumnName = "time_id")
     private Time time;
 }
