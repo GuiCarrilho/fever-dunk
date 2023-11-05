@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/manager")
 public class ManagerController {
 
     private final ManagerService managerService;
