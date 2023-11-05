@@ -35,7 +35,7 @@ public class Desempenho {
     @Min(value = 0)
     private int rebotes;
 
-    @Column(name = "assisntencias")
+    @Column(name = "assistencias")
     @NotNull
     @Min(value = 0)
     private int assistencias;

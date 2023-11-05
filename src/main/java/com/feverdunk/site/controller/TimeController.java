@@ -38,7 +38,7 @@ public class TimeController {
     @PostMapping
     public ResponseEntity<Time> post(@RequestBody @Validated Time time) {return criarTime(time);}
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<Time> put(@RequestBody @Validated Time time){
         try{
             timeService.findById(time.getId());
