@@ -18,9 +18,8 @@ import java.util.List;
 public class Time {
 
     @Id
-    @OneToOne
-    @JoinColumn(name = "manager_id")
-    private Manager manager;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "nome")
     private String nome;

@@ -16,10 +16,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "contratos")
 public class Contrato {
+    @Id
     @ManyToOne
     @JoinColumn(name = "jogador_id")
     private Jogador jogador;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "time_id")
     private Time time;

@@ -51,7 +51,7 @@ public class Manager {
     @NotNull
     private boolean premium;
 
-    @OneToOne(mappedBy = "manager")
-    @JoinColumn(name = "time_id")
+    @OneToOne
+    @JoinColumn(name = "time_id", referencedColumnName = "id")
     private Time time;
 }
