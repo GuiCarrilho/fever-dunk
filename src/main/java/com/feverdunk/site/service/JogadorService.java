@@ -31,6 +31,10 @@ public class JogadorService {
         return jogador.orElseThrow(() -> new ObjectNotFoundException("Jogador com id: {" + id + "} não foi encontrado"));
     }
 
+    public List<Jogador> findAllByTimeId(Long timeId){
+        return jogadorRepository.findAllByTimeId(timeId);
+    }
+
     public Jogador create(Jogador jogador){
         jogador.setId(null);
 

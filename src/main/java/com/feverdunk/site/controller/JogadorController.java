@@ -2,6 +2,7 @@ package com.feverdunk.site.controller;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Jogador;
+import com.feverdunk.site.repository.JogadorRepository;
 import com.feverdunk.site.service.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,10 @@ import java.util.List;
 public class JogadorController {
     private JogadorService jogadorService;
 
+
     @Autowired
     public JogadorController(JogadorService jogadorService){
+
         this.jogadorService = jogadorService;
     }
 
@@ -33,6 +36,12 @@ public class JogadorController {
         Jogador jogador = jogadorService.findById(id);
 
         return ResponseEntity.ok(jogador);
+    }
+
+    @GetMapping("/time/{id}")
+    public ResponseEntity<List<Jogador>> getJogadorByTimeId(@PathVariable Long id){
+        List<Jogador> jogadores = jogadorService.findAllByTimeId(id);
+        return ResponseEntity.ok(jogadores);
     }
 
     @PostMapping
