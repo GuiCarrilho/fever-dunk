@@ -28,4 +28,7 @@ public class Time {
     @Column(name = "pontuação")
     private int pontuacao;
 
+    @OneToMany(mappedBy = "time")
+    private List<Contrato> contratos;
+
 }

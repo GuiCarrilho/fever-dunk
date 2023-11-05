@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "contrato")
+@Table(name = "contratos")
 public class Contrato {
     @ManyToOne
     @JoinColumn(name = "jogador_id")
