@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,10 +27,12 @@ public class Liga {
     @NotBlank
     private String descricao;
 
+    @JsonIgnore
     @Column(name = "senha")
     @NotBlank
     private String senha;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "liga")
     private List<Participacao> participacao;
 }

@@ -38,17 +38,7 @@ public class JogadorService {
     }
 
     public Jogador update(Jogador jogadorNovo){
-        Jogador jogador = findById(jogadorNovo.getId());
-
-        jogador.setNome(jogadorNovo.getNome());
-        jogador.setPosicao(jogadorNovo.getPosicao());
-        jogador.setAltura(jogadorNovo.getAltura());
-        jogador.setIdade(jogadorNovo.getIdade());
-        jogador.setValor(jogadorNovo.getValor());
-        jogador.setTimeReal(jogadorNovo.getTimeReal());
-        jogador.setPontuacao(jogadorNovo.getPontuacao());
-
-        return jogadorRepository.save(jogador);
+        return jogadorRepository.save(jogadorNovo);
     }
 
     public void delete(Long id){

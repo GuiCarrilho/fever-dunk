@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -54,6 +55,7 @@ public class Jogador {
     @Min(value = 0)
     private int pontuacao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "jogador")
     private List<Desempenho> desempenhos;
 }

@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 import jakarta.validation.constraints.NotBlank;
@@ -39,6 +40,7 @@ public class Manager {
     @NotBlank
     private String email;
 
+    @JsonIgnore
     @Column(name = "senha")
     @NotBlank
     private String senha;
@@ -51,6 +53,7 @@ public class Manager {
     @NotNull
     private boolean premium;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "time_id", referencedColumnName = "id")
     private Time time;

@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Time {
     @Column(name = "pontuação")
     private int pontuacao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "time")
     private List<Contrato> contratos;
 
