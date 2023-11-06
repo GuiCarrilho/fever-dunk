@@ -22,15 +22,15 @@ public class Participacao {
     @Column(name = "participacao_id")
     private Long id;
 
-    @Column(name = "data")
+    @Column(name = "participacao_data")
     @NotNull
     private LocalDateTime data;
 
     @ManyToOne
-    @JoinColumn(name = "liga_id")
+    @JoinColumn(name = "participacao_id_liga")
     private Liga liga;
 
     @ManyToOne
-    @JoinColumn(name = "time_id", referencedColumnName = "time_id")
+    @JoinColumn(name = "participacao_id_time", referencedColumnName = "time_id")
     private Time time;
 }

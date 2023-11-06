@@ -22,7 +22,7 @@ public class Desempenho {
     @Column(name = "desempenho_id")
     private Long id;
 
-    @Column(name = "data")
+    @Column(name = "desempenho_data")
     @NotNull
     private LocalDate data;
 
@@ -47,6 +47,6 @@ public class Desempenho {
     private int minJogados;
 
     @ManyToOne
-    @JoinColumn(name = "jogador_id")
+    @JoinColumn(name = "desempenho_id_jogador")
     private Jogador jogador;
 }

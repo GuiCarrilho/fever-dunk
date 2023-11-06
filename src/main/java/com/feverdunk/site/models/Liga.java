@@ -29,7 +29,7 @@ public class Liga {
     private String descricao;
 
     @JsonIgnore
-    @Column(name = "senha")
+    @Column(name = "liga_senha")
     @NotBlank
     private String senha;
 

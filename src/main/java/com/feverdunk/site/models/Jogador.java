@@ -51,7 +51,7 @@ public class Jogador {
     @NotBlank
     private String timeReal;
 
-    @Column(name = "pontuacao")
+    @Column(name = "jogador_pontuacao")
     @NotNull
     @Min(value = 0)
     private int pontuacao;

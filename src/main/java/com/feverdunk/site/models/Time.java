@@ -26,7 +26,7 @@ public class Time {
     @Column(name = "time_nome")
     private String nome;
 
-    @Column(name = "pontuação")
+    @Column(name = "time_pontuacao")
     private int pontuacao;
 
     @JsonIgnore
