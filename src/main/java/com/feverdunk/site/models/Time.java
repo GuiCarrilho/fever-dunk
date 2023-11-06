@@ -26,7 +26,7 @@ public class Time {
     private String nome;
 
     @Column(name = "time_pontuacao")
-    private int pontuacao;
+    private Integer pontuacao;
 
     @JsonIgnore
     @OneToMany(mappedBy = "time")
