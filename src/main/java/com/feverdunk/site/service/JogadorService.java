@@ -3,7 +3,6 @@ package com.feverdunk.site.service;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Jogador;
 import com.feverdunk.site.repository.JogadorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

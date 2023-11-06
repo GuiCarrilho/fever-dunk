@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.feverdunk.site.compositeIDs.ContratoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "contratos")
 public class Contrato {
-    @Id
+
+    @EmbeddedId
+    private ContratoId id;
+    
     @ManyToOne
+    @MapsId("jogadorId")
     @JoinColumn(name = "jogador_id_contrato")
     private Jogador jogador;
 
-    @Id
     @ManyToOne
+    @MapsId("timeId")
     @JoinColumn(name = "time_id_contrato",  referencedColumnName = "time_id")
     private Time time;
 

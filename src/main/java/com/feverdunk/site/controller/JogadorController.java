@@ -2,7 +2,6 @@ package com.feverdunk.site.controller;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Jogador;
-import com.feverdunk.site.repository.JogadorRepository;
 import com.feverdunk.site.service.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

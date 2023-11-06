@@ -1,8 +1,6 @@
 package com.feverdunk.site.service;
 
-import com.feverdunk.site.exceptions.GlobalExceptionHandler;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
-import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.Time;
 import com.feverdunk.site.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
