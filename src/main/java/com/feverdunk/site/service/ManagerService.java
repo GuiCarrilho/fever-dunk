@@ -4,6 +4,7 @@ import com.feverdunk.site.exceptions.AuthorizationException;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Manager;
 import com.feverdunk.site.models.Perfil;
+import com.feverdunk.site.models.Time;
 import com.feverdunk.site.repository.ManagerRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class ManagerService {
     public Manager create(Manager manager) {
         manager.setId(null);
         manager.setSenha(this.bCryptPasswordEncoder.encode(manager.getSenha()));
+        manager.setTime(new Time());
+        manager.setPerfis(Stream.of(Perfil.USER.getCodigo()).collect(Collectors.toSet()));
         return this.managerRepository.save(manager);
     }
 

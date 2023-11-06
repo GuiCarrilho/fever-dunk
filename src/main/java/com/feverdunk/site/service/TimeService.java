@@ -1,23 +1,46 @@
 package com.feverdunk.site.service;
 
+import com.feverdunk.site.exceptions.AuthorizationException;
+import com.feverdunk.site.exceptions.EntityAlreadyExistsExeption;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
+import com.feverdunk.site.models.Manager;
+import com.feverdunk.site.models.Perfil;
 import com.feverdunk.site.models.Time;
 import com.feverdunk.site.repository.TimeRepository;
+import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class TimeService {
 
     private TimeRepository timeRepository;
+    private ManagerService managerService;
 
     @Autowired
-    public TimeService(TimeRepository timeRepository) {this.timeRepository = timeRepository;}
+    public TimeService(TimeRepository timeRepository, ManagerService managerService) {
+        this.timeRepository = timeRepository;
+        this.managerService = managerService;
+    }
 
     public List<Time> getTime() {return timeRepository.findAll();}
+
+    public Time findByManager(){
+        UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        if(Objects.nonNull(userSpringSecurity)){
+            Optional<Time> time = timeRepository.findTimeByManagerId(userSpringSecurity.getId());
+
+            return time.orElseThrow(() -> new ObjectNotFoundException("Manager com id: {" +
+                    userSpringSecurity.getId() + "} não possui time."));
+        }
+
+        throw new AuthorizationException("Acesso negado.");
+    }
 
     public Time findById(Long id){
         Optional<Time> time = timeRepository.findById(id);
@@ -26,9 +49,23 @@ public class TimeService {
     }
 
     public Time create(Time time){
-        time.setId(null);
+        UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        if(Objects.nonNull(userSpringSecurity)){
+            Manager manager = managerService.findById(userSpringSecurity.getId());
+            if(Objects.isNull(manager.getTime())){
+                time.setId(null);
+                Time timeCriado = timeRepository.save(time);
+                manager.setTime(timeCriado);
 
-        return timeRepository.save(time);
+                return timeCriado;
+            }
+            else{
+                throw new EntityAlreadyExistsExeption("O manager id: {" + manager.getId() + "} já possio time");
+            }
+        }
+        else{
+            throw new AuthorizationException("Acesso negado.");
+        }
     }
 
     public Time update(Time timeNovo){
@@ -40,6 +77,7 @@ public class TimeService {
 
         return timeRepository.save(time);
     }
+
     public void delete(Long id){
         timeRepository.delete(findById(id));
     }
