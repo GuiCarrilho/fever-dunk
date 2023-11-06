@@ -24,7 +24,7 @@ public class SecurityConfig {
     };
 
     private static final String[] PUBLIC_MATCHES_POST = {
-            "/user",
+            "/manager",
             "/login"
     };
 

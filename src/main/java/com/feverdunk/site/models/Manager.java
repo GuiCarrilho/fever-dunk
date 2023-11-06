@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "Managers")
 @Getter
@@ -39,7 +42,6 @@ public class Manager {
     @NotBlank
     private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "manager_senha")
     @NotBlank
     private String senha;
@@ -55,4 +57,16 @@ public class Manager {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id_time", referencedColumnName = "time_id")
     private Time time;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "perfil", nullable = false)
+    private Set<Integer> perfis;
+
+    public Set<Perfil> getPerfis(){
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Perfil p){
+        this.perfis.add(p.getCodigo());
+    }
 }
