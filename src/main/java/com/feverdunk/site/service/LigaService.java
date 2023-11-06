@@ -1,9 +1,7 @@
 package com.feverdunk.site.service;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
-import com.feverdunk.site.models.Jogador;
 import com.feverdunk.site.models.Liga;
-import com.feverdunk.site.models.Manager;
 import com.feverdunk.site.repository.LigaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
