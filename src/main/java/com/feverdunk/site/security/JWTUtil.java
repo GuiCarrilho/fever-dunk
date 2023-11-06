@@ -12,9 +12,9 @@ import java.util.Objects;
 
 @Component
 public class JWTUtil {
-    @Value("jwt.secret")
+    @Value("${jwt.secret}")
     private String secret;
-    @Value("jwt.expiration")
+    @Value("${jwt.expiration}")
     private Long expiration;
 
     public String generateToken(String username){
@@ -27,6 +27,7 @@ public class JWTUtil {
     }
 
     private SecretKey getKeyBySecret(){
+        byte[] a = secret.getBytes();
         return Keys.hmacShaKeyFor(this.secret.getBytes());
     }
 

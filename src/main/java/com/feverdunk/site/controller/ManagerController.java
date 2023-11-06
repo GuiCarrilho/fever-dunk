@@ -85,7 +85,7 @@ public class ManagerController {
         Manager manager = new Manager();
         manager.setNome(dto.getNome());
         manager.setSenha(dto.getSenha());
-        manager.setEmail(dto.getSenha());
+        manager.setEmail(dto.getEmail());
         try{
             manager.setId(dto.getId());
         } catch (NullPointerException ex){
