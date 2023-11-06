@@ -1,6 +1,7 @@
 package com.feverdunk.site.controller;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
+import com.feverdunk.site.models.Jogador;
 import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.Manager;
 import com.feverdunk.site.service.LigaService;
@@ -27,6 +28,12 @@ public class LigaController {
 
     @GetMapping("/{id}")
     public Liga getById(Long id){ return ligaService.findById(id);}
+
+    @GetMapping("/liga/{id}")
+    public ResponseEntity<List<Liga>> getLigaByTimeId(@PathVariable Long id){
+        List<Liga> ligas = ligaService.findAllByTimeId(id);
+        return ResponseEntity.ok(ligas);
+    }
 
     @PostMapping
     public ResponseEntity<Liga> post(@RequestBody @Validated Liga liga){ return criarLiga(liga);}

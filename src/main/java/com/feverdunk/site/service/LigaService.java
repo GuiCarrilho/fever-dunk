@@ -1,6 +1,7 @@
 package com.feverdunk.site.service;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
+import com.feverdunk.site.models.Jogador;
 import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.Manager;
 import com.feverdunk.site.repository.LigaRepository;
@@ -24,6 +25,10 @@ public class LigaService {
         Optional<Liga> liga = ligaRepository.findById(id);
 
         return liga.orElseThrow(() -> new ObjectNotFoundException("Liga com id: {" + id + "} não foi encontrado"));
+    }
+
+    public List<Liga> findAllByTimeId(Long timeId){
+        return ligaRepository.findAllByTimeId(timeId);
     }
 
     public Liga create(Liga liga) {
