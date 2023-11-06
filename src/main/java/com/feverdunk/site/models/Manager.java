@@ -1,6 +1,8 @@
 package com.feverdunk.site.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.List;
 import jakarta.validation.constraints.NotBlank;
@@ -41,7 +43,7 @@ public class Manager {
     @NotBlank
     private String email;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "manager_senha")
     @NotBlank
     private String senha;
@@ -54,8 +56,7 @@ public class Manager {
     @NotNull
     private boolean premium;
 
-    @JsonIgnore
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id_time", referencedColumnName = "time_id")
     private Time time;
 }
