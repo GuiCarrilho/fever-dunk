@@ -7,6 +7,7 @@ import com.feverdunk.site.repository.ContratoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class ContratoService {
 
     public void delete(ContratoId id) {
         Contrato contrato = findById(id);
-
-        contratoRepository.delete(contrato);
+        LocalDateTime data = LocalDateTime.now();
+        contrato.setVendidoEm(data);
     }
 }
