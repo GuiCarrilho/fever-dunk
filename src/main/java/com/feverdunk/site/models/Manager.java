@@ -33,7 +33,7 @@ public class Manager {
     @Column(name = "manager_id")
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "manager_nome")
     @NotBlank
     private String nome;
 
@@ -42,7 +42,7 @@ public class Manager {
     private String email;
 
     @JsonIgnore
-    @Column(name = "senha")
+    @Column(name = "manager_senha")
     @NotBlank
     private String senha;
 
@@ -56,6 +56,6 @@ public class Manager {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "time_id", referencedColumnName = "time_id")
+    @JoinColumn(name = "manager_id_time", referencedColumnName = "time_id")
     private Time time;
 }
