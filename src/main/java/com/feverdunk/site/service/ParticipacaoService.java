@@ -7,6 +7,7 @@ import com.feverdunk.site.repository.ParticipacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,9 @@ public class ParticipacaoService {
         return participacaoRepository.save(participacaoNova);
     }
 
-    public void delete(ParticipacaoId id){ participacaoRepository.findById(id); }
+    public void delete(ParticipacaoId id){
+        Participacao participacao = findById(id);
+        LocalDateTime data = LocalDateTime.now();
+        participacao.setAte(data);
+    }
 }
