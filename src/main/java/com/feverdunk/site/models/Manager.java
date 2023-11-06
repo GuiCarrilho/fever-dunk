@@ -18,14 +18,6 @@ import lombok.Setter;
 
 public class Manager {
 
-    public Manager(String nome, String email, String senha, int dinheiro, boolean premium) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.dinheiro = dinheiro;
-        this.premium = premium;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "manager_id")
@@ -35,7 +27,7 @@ public class Manager {
     @NotBlank
     private String nome;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @NotBlank
     private String email;
 

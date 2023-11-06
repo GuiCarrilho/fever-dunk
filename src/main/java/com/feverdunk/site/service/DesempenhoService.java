@@ -22,7 +22,7 @@ public class DesempenhoService {
     public Desempenho findById(Long id){
         Optional<Desempenho> desempenho = desempenhoRepository.findById(id);
 
-        return desempenho.orElseThrow(() -> new ObjectNotFoundException("Jogador com id: {" + id + "} não foi encontrado"));
+        return desempenho.orElseThrow(() -> new ObjectNotFoundException("Desempenho com id: {" + id + "} não foi encontrado"));
     }
 
     public Desempenho create(Desempenho desempenho){
