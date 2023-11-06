@@ -4,6 +4,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.lang.NonNull;
@@ -19,52 +21,73 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationFailureHandler {
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllUncaughtExceptions(Exception ex, WebRequest request){
-        final String message = "Unknow Server Error.";
-        log.error(message, ex);
-        ProblemDetail body = createProblemDetail(ex, HttpStatus.INTERNAL_SERVER_ERROR,
-                message, null, null, request);
-        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    private static final Logger log = LoggerFactory.getLogger("GLOBAL_EXCEPTION_HANDLER");
+
+    public GlobalExceptionHandler() {
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  @NonNull HttpHeaders headers,
-                                                                  @NonNull HttpStatusCode status,
-                                                                  @NonNull WebRequest request){
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<Object> handleAllUncaughtExceptions(Exception ex, WebRequest request) {
+        String message = "Unknow Server Error.";
+        log.error("Unknow Server Error.", ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Unknow Server Error.", (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder sb = new StringBuilder();
         sb.append("Objeto: ").append(bindingResult.getObjectName()).append(" Erro: ");
-        try{
-            sb.append(ex.getFieldError().getField()).append(" ")
-                    .append(ex.getFieldError().getDefaultMessage()).append("]");
-        }catch (NullPointerException e){
+
+        try {
+            sb.append(ex.getFieldError().getField()).append(" ").append(ex.getFieldError().getDefaultMessage()).append("]");
+        } catch (NullPointerException var9) {
             sb.append("Desconhecido");
         }
-        final String message = sb.toString();
+
+        String message = sb.toString();
         log.error(message, ex);
-        ProblemDetail body = createProblemDetail(ex, HttpStatus.BAD_REQUEST,
-                message, null, null, request);
-        return handleExceptionInternal(ex, body, headers, status, request);
-    }
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception,
-                                                                        WebRequest request){
-        final String message = exception.getMostSpecificCause().getMessage();
-        log.error(message, exception);
-        ProblemDetail body = createProblemDetail(exception, HttpStatus.BAD_REQUEST, message,
-                null, null, request);
-        return handleExceptionInternal(exception, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, headers, status, request);
     }
 
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+        String message = ex.getMostSpecificCause().getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 
-    @Override
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<Object> handleAuthenticationException(AuthorizationException ex, WebRequest request) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.FORBIDDEN, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.FORBIDDEN, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler({AuthorizationException.class})
+    public ResponseEntity<Object> handleAuthorizationException(AuthorizationException ex, WebRequest request) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.UNAUTHORIZED, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    }
+
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");

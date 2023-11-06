@@ -14,54 +14,56 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserSpringSecurity implements UserDetails {
     private Long id;
-    private String email;
-    private String senha;
+    private String username;
+    private String password;
     private Collection<? extends GrantedAuthority> autoridades;
 
-    public UserSpringSecurity(Long id, String email, String senha, Set<Perfil> perfis) {
+    public UserSpringSecurity(Long id, String username, String password, Set<Perfil> perfis) {
         this.id = id;
-        this.email = email;
-        this.senha = senha;
-        this.autoridades = perfis.stream().map(p ->
-                new SimpleGrantedAuthority(p.getDescricao())).collect(Collectors.toList());
+        this.username = username;
+        this.password = password;
+        this.autoridades = perfis.stream().map((p) -> {
+            return new SimpleGrantedAuthority(p.getDescricao());
+        }).collect(Collectors.toList());
     }
 
-    public boolean hasHole(Perfil p){
-        return getAuthorities().contains(new SimpleGrantedAuthority(p.getDescricao()));
+    public boolean hasHole(Perfil p) {
+        return this.getAuthorities().contains(new SimpleGrantedAuthority(p.getDescricao()));
     }
 
-    @Override
+    public Long getId() {
+        return this.id;
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return autoridades;
+        return this.autoridades;
     }
 
-    @Override
     public String getPassword() {
-        return senha;
+        return this.password;
     }
 
-    @Override
     public String getUsername() {
-        return email;
+        return this.username;
     }
 
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Collection<? extends GrantedAuthority> getAutoridades() {
+        return this.autoridades;
     }
 }

@@ -34,7 +34,7 @@ public class ManagerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ManagerOutDTO> getById(Long id){
+    public ResponseEntity<ManagerOutDTO> getById(@PathVariable Long id){
         Manager manager = managerService.findById(id);
         ManagerOutDTO dto = entityToOut(manager);
 

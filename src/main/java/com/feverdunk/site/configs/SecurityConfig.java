@@ -29,6 +29,8 @@ public class SecurityConfig {
     private AuthenticationManager authenticationManager;
     private JWTUtil jwtUtil;
     private UserDetailsService userDetailsService;
+    private static final String[] PUBLIC_MATCHERS = new String[]{"/"};
+    private static final String[] PUBLIC_MATCHES_POST = new String[]{"/manager", "/login"};
 
     @Autowired
     public SecurityConfig(JWTUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -36,55 +38,33 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    private static final String[] PUBLIC_MATCHERS = {
-            "/"
-    };
-
-    private static final String[] PUBLIC_MATCHES_POST = {
-            "/manager",
-            "/login"
-    };
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable);
-
-        AuthenticationManagerBuilder authenticationManagerBuilder = http
-                .getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(this.userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder());
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors(AbstractHttpConfigurer::disable).csrf(AbstractHttpConfigurer::disable);
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(this.bCryptPasswordEncoder());
         this.authenticationManager = authenticationManagerBuilder.build();
-
-        http.authorizeHttpRequests(request -> {
-            request.requestMatchers(PUBLIC_MATCHERS).permitAll()
-                    .requestMatchers(PUBLIC_MATCHES_POST).permitAll()
-                    .anyRequest().authenticated();
-        }).authenticationManager(authenticationManager);
-
-        http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil))
-                .addFilter(new JWTAuthorizationFilter(this.authenticationManager, this.jwtUtil, this.userDetailsService));
-
-        http.sessionManagement(httpSecuritySessionManagementConfigurer ->
-                httpSecuritySessionManagementConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-
+        http.authorizeHttpRequests((request) -> {
+            (request.requestMatchers(PUBLIC_MATCHERS).permitAll().requestMatchers(PUBLIC_MATCHES_POST)).permitAll().anyRequest().authenticated();
+        }).authenticationManager(this.authenticationManager);
+        http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil)).addFilter(new JWTAuthorizationFilter(this.authenticationManager, this.jwtUtil, this.userDetailsService));
+        http.sessionManagement((httpSecuritySessionManagementConfigurer) -> {
+            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        });
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = (new CorsConfiguration()).applyPermitDefaultValues();
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
