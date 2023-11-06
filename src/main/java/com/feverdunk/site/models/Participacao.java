@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.feverdunk.site.compositeIDs.ParticipacaoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,20 +17,24 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "participacoes")
 public class Participacao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participacao_id")
-    private Long id;
+
+    @EmbeddedId
+    private ParticipacaoId id;
+
+    @ManyToOne
+    @MapsId("ligaId")
+    @JoinColumn(name = "participacao_id_liga")
+    private Liga liga;
+
+    @ManyToOne
+    @MapsId("timeId")
+    @JoinColumn(name = "participacao_id_time", referencedColumnName = "time_id")
+    private Time time;
 
     @Column(name = "participacao_data")
     @NotNull
     private LocalDateTime data;
 
-    @ManyToOne
-    @JoinColumn(name = "participacao_id_liga")
-    private Liga liga;
-
-    @ManyToOne
-    @JoinColumn(name = "participacao_id_time", referencedColumnName = "time_id")
-    private Time time;
+    @Column(name = "ate")
+    private LocalDateTime ate;
 }
