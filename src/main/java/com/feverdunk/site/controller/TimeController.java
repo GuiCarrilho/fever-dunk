@@ -1,6 +1,7 @@
 package com.feverdunk.site.controller;
 
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
+import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.Time;
 import com.feverdunk.site.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,13 @@ public class TimeController {
     @GetMapping("/{id}")
     public ResponseEntity<Time> getById(@PathVariable Long id){
         Time time = timeService.findById(id);
+
+        return ResponseEntity.ok(time);
+    }
+
+    @GetMapping("/liga/{ligaId}")
+    public ResponseEntity<List<Time>> getTimeFromLiga(@PathVariable Long ligaId){
+        List<Time> time = timeService.getTimeFromLiga(ligaId);
 
         return ResponseEntity.ok(time);
     }
