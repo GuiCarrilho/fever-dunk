@@ -1,6 +1,7 @@
 package com.feverdunk.site.configs;
 
 import com.feverdunk.site.security.JWTAuthenticationFilter;
+import com.feverdunk.site.security.JWTAuthorizationFilter;
 import com.feverdunk.site.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -62,7 +63,8 @@ public class SecurityConfig {
                     .anyRequest().authenticated();
         }).authenticationManager(authenticationManager);
 
-        http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil));
+        http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, this.jwtUtil))
+                .addFilter(new JWTAuthorizationFilter(this.authenticationManager, this.jwtUtil, this.userDetailsService));
 
         http.sessionManagement(httpSecuritySessionManagementConfigurer ->
                 httpSecuritySessionManagementConfigurer
