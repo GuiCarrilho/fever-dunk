@@ -1,10 +1,13 @@
 package com.feverdunk.site.controller;
 
+import com.feverdunk.site.dto.time.TimeInDTO;
+import com.feverdunk.site.dto.time.TimeOutDTO;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Time;
 import com.feverdunk.site.service.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,10 +46,14 @@ public class TimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Time> post(@RequestBody @Validated Time time) {return criarTime(time);}
+    public ResponseEntity<Time> post(@RequestBody @Validated TimeInDTO dto) {
+        Time time = inToEntity(dto);
+        return criarTime(time);
+    }
 
     @PutMapping
-    public ResponseEntity<Time> put(@RequestBody @Validated Time time){
+    public ResponseEntity<Time> put(@RequestBody @Validated TimeInDTO dto){
+        Time time = inToEntity(dto);
         try{
             timeService.findById(time.getId());
 
@@ -58,6 +65,7 @@ public class TimeController {
         }
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         timeService.delete(id);
@@ -72,6 +80,25 @@ public class TimeController {
                 .path("/{id}").buildAndExpand(timeCriado.getId()).toUri();
 
                 return ResponseEntity.created(uri).build();
+    }
+
+    private Time inToEntity(TimeInDTO dto){
+        Time time = new Time();
+        time.setId(time.getId());
+        time.setNome(dto.getNome());
+
+        return time;
+    }
+
+    private TimeOutDTO entityToOut(Time time){
+        TimeOutDTO dto = new TimeOutDTO();
+
+        dto.setId(time.getId());
+        dto.setNome(time.getNome());
+        dto.setPontuacao(time.getPontuacao());
+        dto.setContratos(time.getContratos());
+
+        return dto;
     }
 
 }
