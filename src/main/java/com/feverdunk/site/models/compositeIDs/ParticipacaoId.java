@@ -1,4 +1,4 @@
-package com.feverdunk.site.compositeIDs;
+package com.feverdunk.site.models.compositeIDs;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

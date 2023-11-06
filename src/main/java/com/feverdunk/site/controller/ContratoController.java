@@ -1,6 +1,6 @@
 package com.feverdunk.site.controller;
 
-import com.feverdunk.site.compositeIDs.ContratoId;
+import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
 import com.feverdunk.site.service.ContratoService;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/contrato")

@@ -1,6 +1,6 @@
 package com.feverdunk.site.service;
 
-import com.feverdunk.site.compositeIDs.ParticipacaoId;
+import com.feverdunk.site.models.compositeIDs.ParticipacaoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Participacao;
 import com.feverdunk.site.repository.ParticipacaoRepository;

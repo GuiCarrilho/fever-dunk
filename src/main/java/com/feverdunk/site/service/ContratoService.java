@@ -1,12 +1,10 @@
 package com.feverdunk.site.service;
 
-import com.feverdunk.site.compositeIDs.ContratoId;
+import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
-import com.feverdunk.site.models.Participacao;
 import com.feverdunk.site.repository.ContratoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
