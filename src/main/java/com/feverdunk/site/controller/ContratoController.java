@@ -1,6 +1,5 @@
 package com.feverdunk.site.controller;
 
-import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;

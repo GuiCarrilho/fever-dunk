@@ -9,8 +9,8 @@ import com.feverdunk.site.models.Time;
 import com.feverdunk.site.repository.TimeRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +48,7 @@ public class TimeService {
         return time.orElseThrow(() -> new ObjectNotFoundException("Time com id: {" + id + "} não foi encontrado"));
     }
 
+    @Transactional
     public Time create(Time time){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if(Objects.nonNull(userSpringSecurity)){
@@ -68,6 +69,7 @@ public class TimeService {
         }
     }
 
+    @Transactional
     public Time update(Time timeNovo){
         Time time = findById(timeNovo.getId());
 

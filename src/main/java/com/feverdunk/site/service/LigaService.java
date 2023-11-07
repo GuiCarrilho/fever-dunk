@@ -5,6 +5,7 @@ import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.repository.LigaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class LigaService {
     private final LigaRepository ligaRepository;
+    private ManagerService managerService;
 
     @Autowired
     public LigaService(LigaRepository ligaRepository){ this.ligaRepository = ligaRepository; }
@@ -31,12 +33,14 @@ public class LigaService {
 
     public List<Liga> findAllByManagerId(Long managerId) { return ligaRepository.findAllByManagerId(managerId); }
 
+    @Transactional
     public Liga create(Liga liga) {
         liga.setId(null);
 
         return ligaRepository.save(liga);
     }
 
+    @Transactional
     public Liga update(Liga ligaNova) {
         Liga liga = findById(ligaNova.getId());
 

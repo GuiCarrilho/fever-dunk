@@ -10,6 +10,7 @@ import com.feverdunk.site.repository.ContratoRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,6 +57,7 @@ public class ContratoService {
         throw new AuthorizationException("Acesso negado.");
     }
 
+    @Transactional
     public Contrato create(Contrato contrato) {
         Long timeId = contrato.getId().getTimeId();;
         if(temAutorizacao(timeId)){
@@ -83,6 +85,7 @@ public class ContratoService {
         return contratoRepository.save(contrato);
     }
 
+    @Transactional
     public Contrato update(Contrato contratoNovo) { //Só ADMIN pode atualizar um contrato
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if(Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN)){
@@ -103,11 +106,12 @@ public class ContratoService {
         Contrato contrato = findById(id);
         LocalDateTime data = LocalDateTime.now();
         contrato.setVendidoEm(data);
+        contratoRepository.save(contrato);
     }
 
     private boolean temAutorizacao(Long timeId){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
-         return Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) ||
+        return Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) ||
                 timeId.equals(managerService.findById(userSpringSecurity.getId()).getTime().getId()));
     }
 }
