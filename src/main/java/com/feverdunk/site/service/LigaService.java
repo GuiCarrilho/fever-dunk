@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class LigaService {
     private final LigaRepository ligaRepository;
+    private ManagerService managerService;
 
     @Autowired
     public LigaService(LigaRepository ligaRepository){ this.ligaRepository = ligaRepository; }

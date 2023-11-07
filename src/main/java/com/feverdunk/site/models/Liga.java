@@ -30,7 +30,7 @@ public class Liga {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "liga_senha")
     @NotBlank
-    private String senha;
+    private Long senha;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")

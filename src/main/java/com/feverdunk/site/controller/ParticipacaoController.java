@@ -36,11 +36,15 @@ public class ParticipacaoController {
         return ResponseEntity.ok(participacao);
     }
 
-    @PostMapping
-    public ResponseEntity<Participacao> post(@RequestBody @Validated Participacao participacao){ return criarParticipacao(participacao); }
+    @PostMapping("/{senha}")
+    public ResponseEntity<Participacao> post(@RequestBody @Validated Participacao participacao,
+                                             @PathVariable Long senha){
+        return criarParticipacao(participacao, senha);
+    }
 
-    @PutMapping
-    public ResponseEntity<Participacao> put(@RequestBody @Validated Participacao participacao){
+    @PutMapping("/{senha}")
+    public ResponseEntity<Participacao> put(@RequestBody @Validated Participacao participacao,
+                                            @PathVariable Long senha){
         try{
             participacaoService.findById(participacao.getId());
 
@@ -48,7 +52,7 @@ public class ParticipacaoController {
 
             return ResponseEntity.ok(participacaoAtualizada);
         }catch (ObjectNotFoundException ex){
-            return criarParticipacao(participacao);
+            return criarParticipacao(participacao, senha);
         }
     }
 
@@ -59,8 +63,8 @@ public class ParticipacaoController {
         return ResponseEntity.noContent().build();
     }
 
-    private ResponseEntity<Participacao> criarParticipacao(Participacao participacao){
-        Participacao participacaoCriada = participacaoService.create(participacao);
+    private ResponseEntity<Participacao> criarParticipacao(Participacao participacao, Long senha){
+        Participacao participacaoCriada = participacaoService.create(participacao, senha);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/{id}").buildAndExpand(participacaoCriada.getId()).toUri();

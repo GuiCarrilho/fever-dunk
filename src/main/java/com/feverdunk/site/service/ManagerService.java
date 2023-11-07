@@ -33,7 +33,12 @@ public class ManagerService {
     }
 
     public List<Manager> getManager() {
-        return this.managerRepository.findAll();
+        UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        if (Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN)) {
+            return this.managerRepository.findAll();
+        }
+
+        throw new AuthorizationException("Acesso negado");
     }
 
     public Manager findById(Long id) {
