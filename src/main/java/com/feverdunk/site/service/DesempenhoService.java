@@ -4,6 +4,7 @@ import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Desempenho;
 import com.feverdunk.site.repository.DesempenhoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +26,14 @@ public class DesempenhoService {
         return desempenho.orElseThrow(() -> new ObjectNotFoundException("Desempenho com id: {" + id + "} não foi encontrado"));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Desempenho create(Desempenho desempenho){
         desempenho.setId(null);
 
         return desempenhoRepository.save(desempenho);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Desempenho update(Desempenho desempenhoNovo){
         Desempenho desempenho = findById(desempenhoNovo.getId());
 
@@ -44,6 +47,7 @@ public class DesempenhoService {
         return desempenhoRepository.save(desempenho);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(Long id) { desempenhoRepository.delete(findById(id));}
 
 }

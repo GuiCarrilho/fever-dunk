@@ -65,7 +65,6 @@ public class TimeController {
         }
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         timeService.delete(id);

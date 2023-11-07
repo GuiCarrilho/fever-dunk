@@ -79,7 +79,12 @@ public class TimeService {
     }
 
     public void delete(Long id){
-        timeRepository.delete(findById(id));
+        UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        if(Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN)) {
+            timeRepository.delete(findById(id));
+        }
+
+        throw new AuthorizationException("Acesso negado.");
     }
 
     public List<Time> getTimeFromLiga(Long LigaId) { return timeRepository.findTimesFromLiga(LigaId); }

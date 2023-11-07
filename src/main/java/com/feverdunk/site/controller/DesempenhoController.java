@@ -5,6 +5,7 @@ import com.feverdunk.site.models.Desempenho;
 import com.feverdunk.site.service.DesempenhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,9 +34,11 @@ public class DesempenhoController {
         return ResponseEntity.ok(desempenho);
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<Desempenho> post(@RequestBody @Validated Desempenho desempenho) { return criarDesempenho(desempenho); }
 
+    @PreAuthorize("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<Desempenho> put(@RequestBody @Validated Desempenho desempenho){
         try{
@@ -49,6 +52,7 @@ public class DesempenhoController {
         }
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         desempenhoService.delete(id);

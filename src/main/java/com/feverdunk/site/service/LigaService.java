@@ -43,7 +43,7 @@ public class LigaService {
         liga.setDescricao(ligaNova.getDescricao());
         liga.setParticipacao(ligaNova.getParticipacao());
         liga.setSenha(ligaNova.getSenha());
-        liga.setManagerId(ligaNova.getManagerId());
+        liga.setManager(ligaNova.getManager());
 
         return ligaRepository.save(liga);
     }

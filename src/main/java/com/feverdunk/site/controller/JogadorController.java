@@ -5,6 +5,7 @@ import com.feverdunk.site.models.Jogador;
 import com.feverdunk.site.service.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +21,6 @@ public class JogadorController {
 
     @Autowired
     public JogadorController(JogadorService jogadorService){
-
         this.jogadorService = jogadorService;
     }
 
@@ -43,11 +43,13 @@ public class JogadorController {
         return ResponseEntity.ok(jogadores);
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<Jogador> post(@RequestBody @Validated Jogador jogador){
         return criarJogador(jogador);
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<Jogador> put(@RequestBody @Validated Jogador jogador){
         try{
@@ -62,6 +64,7 @@ public class JogadorController {
         }
     }
 
+    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         jogadorService.delete(id);
