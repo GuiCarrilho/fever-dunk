@@ -1,5 +1,6 @@
 package com.feverdunk.site.service;
 
+import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
@@ -27,6 +28,10 @@ public class ContratoService {
         Optional<Contrato> contrato = contratoRepository.findById(id);
 
         return contrato.orElseThrow(() -> new ObjectNotFoundException("Contrato com id: {" + id + "} não foi encontrado"));
+    }
+
+    public List<Contrato> findAllByTimeId(Long timeId){
+        return contratoRepository.findAllByTimeId(timeId);
     }
 
     public Contrato create(Contrato contrato) {

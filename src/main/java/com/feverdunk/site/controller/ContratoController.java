@@ -1,5 +1,6 @@
 package com.feverdunk.site.controller;
 
+import com.feverdunk.site.models.Liga;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
@@ -32,6 +33,12 @@ public class ContratoController {
         return contratoService.findById(id);
     }
 
+    @GetMapping("/contrato/{id}")
+    public ResponseEntity<List<Contrato>> getContratoByTimeId(@PathVariable Long id){
+        List<Contrato> contratos = contratoService.findAllByTimeId(id);
+        return ResponseEntity.ok(contratos);
+    }
+
     @PostMapping
     public ResponseEntity<Contrato> post(@RequestBody @Validated Contrato contrato){
         return criarContrato(contrato);
@@ -49,6 +56,7 @@ public class ContratoController {
             return criarContrato(contrato);
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Contrato> delete(@PathVariable ContratoId id){
