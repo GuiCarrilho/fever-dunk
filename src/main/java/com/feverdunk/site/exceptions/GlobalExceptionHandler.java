@@ -86,6 +86,38 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
 
+    @ExceptionHandler(EntityAlreadyExistsExeption.class)
+    public ResponseEntity<Object> handleEntityAlreadyExistsExeption(EntityAlreadyExistsExeption ex, WebRequest request){
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(MaxSizeException.class)
+    public ResponseEntity<Object> handleMaxSizeException(MaxSizeException ex, WebRequest request){
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException ex, WebRequest request){
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.NOT_FOUND, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(NotEnoughFundsException.class)
+    public ResponseEntity<Object> handleNotEnoughFundsException(NotEnoughFundsException ex, WebRequest request){
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
