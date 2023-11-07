@@ -27,13 +27,13 @@ public class LigaController {
     @GetMapping("/{id}")
     public Liga getById(Long id){ return ligaService.findById(id);}
 
-    @GetMapping("/liga/{id}")
+    @GetMapping("/time/{id}")
     public ResponseEntity<List<Liga>> getLigaByTimeId(@PathVariable Long id){
         List<Liga> ligas = ligaService.findAllByTimeId(id);
         return ResponseEntity.ok(ligas);
     }
 
-    @GetMapping("/liga/{id}")
+    @GetMapping("/manager/{id}")
     public ResponseEntity<List<Liga>> getLigaByManagerId(@PathVariable Long id){
         List<Liga> ligas = ligaService.findAllByManagerId(id);
         return ResponseEntity.ok(ligas);
