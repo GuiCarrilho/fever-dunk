@@ -1,6 +1,7 @@
 package com.feverdunk.site.repository;
 
 import com.feverdunk.site.models.Liga;
+import com.feverdunk.site.models.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
