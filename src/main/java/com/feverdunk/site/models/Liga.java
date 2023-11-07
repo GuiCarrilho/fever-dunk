@@ -32,6 +32,10 @@ public class Liga {
     @NotBlank
     private String senha;
 
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private Manager managerId;
+
     @JsonIgnore
     @OneToMany(mappedBy = "liga")
     private List<Participacao> participacao;

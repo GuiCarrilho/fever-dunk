@@ -29,6 +29,8 @@ public class LigaService {
         return ligaRepository.findAllByTimeId(timeId);
     }
 
+    public List<Liga> findAllByManagerId(Long managerId) { return ligaRepository.findAllByManagerId(managerId); }
+
     public Liga create(Liga liga) {
         liga.setId(null);
 
@@ -41,6 +43,7 @@ public class LigaService {
         liga.setDescricao(ligaNova.getDescricao());
         liga.setParticipacao(ligaNova.getParticipacao());
         liga.setSenha(ligaNova.getSenha());
+        liga.setManagerId(ligaNova.getManagerId());
 
         return ligaRepository.save(liga);
     }

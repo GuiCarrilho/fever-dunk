@@ -33,6 +33,12 @@ public class LigaController {
         return ResponseEntity.ok(ligas);
     }
 
+    @GetMapping("/liga/{id}")
+    public ResponseEntity<List<Liga>> getLigaByManagerId(@PathVariable Long id){
+        List<Liga> ligas = ligaService.findAllByManagerId(id);
+        return ResponseEntity.ok(ligas);
+    }
+
     @PostMapping
     public ResponseEntity<Liga> post(@RequestBody @Validated Liga liga){ return criarLiga(liga);}
 
