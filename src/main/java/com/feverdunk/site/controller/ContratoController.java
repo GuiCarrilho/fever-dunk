@@ -33,7 +33,7 @@ public class ContratoController {
         return contratoService.findById(id);
     }
 
-    @GetMapping("/contrato/{id}")
+    @GetMapping("/time/{id}")
     public ResponseEntity<List<Contrato>> getContratoByTimeId(@PathVariable Long id){
         List<Contrato> contratos = contratoService.findAllByTimeId(id);
         return ResponseEntity.ok(contratos);
