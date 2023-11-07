@@ -1,5 +1,6 @@
 package com.feverdunk.site.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,11 @@ public class Manager {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id_time", referencedColumnName = "time_id")
     private Time time;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "managerId")
+    private List<Liga> liga;
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "perfil", nullable = false)

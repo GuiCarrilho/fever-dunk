@@ -12,4 +12,6 @@ public interface LigaRepository extends JpaRepository<Liga, Long> {
             "JOIN times t ON (p.time_id_participacao = t.time_id) " +
             "WHERE t.time_id = ?1", nativeQuery = true)
     public List<Liga> findAllByTimeId(Long id);
+
+    public List<Liga> findAllByManagerId(Long id);
 }
