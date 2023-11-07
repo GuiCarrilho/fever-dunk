@@ -1,11 +1,11 @@
 .container{
-    display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 200px;
     width: 600px;
     background: white;
     padding-top: 30px;
+    margin-top: 75px;
+    border-radius: 25px;
 }
 
 .header{
@@ -88,4 +88,9 @@
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
+}
+
+.cinza{
+    background: rgb(221, 214, 214);
+    color: gray;
 }
