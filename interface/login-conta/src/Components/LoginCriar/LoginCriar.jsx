@@ -13,10 +13,10 @@ export const LoginCriar = () => {
   };
 
   async function login() {
-    let username = document.getElementById("email").value;
-    let password = document.getElementById("senha").value;
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
   
-    console.log(username, password);
+    console.log(email, senha);
   
     const response = await fetch("http://localhost:8080/login", {
       method: "POST",
@@ -25,28 +25,14 @@ export const LoginCriar = () => {
         Accept: "application/json",
       }),
       body: JSON.stringify({
-        username: username,
-        password: password,
+        email: email,
+        senha: senha,
       }),
     });
   
     let key = "Authorization";
     let token = response.headers.get(key);
     window.localStorage.setItem(key, token);
-  
-    if (response.ok) {
-      showToast("#okToast");
-    } else {
-      showToast("#errorToast");
-    }
-  
-    window.setTimeout(function () {
-      window.location = "/view/index.html";
-    }, 2000);
-  }
-  
-  function showToast(id) {
-    var toastElList = [].slice.call(document.querySelectorAll(id));
   }
 
   return (
