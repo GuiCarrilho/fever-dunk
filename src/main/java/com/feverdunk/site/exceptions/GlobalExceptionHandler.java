@@ -13,7 +13,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.validation.BindingResult;
 
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,15 +22,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 
-@Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
+@Slf4j(topic = "GLOBAL_EXCEPTION_HANLDER")
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationFailureHandler {
-    private static final Logger log = LoggerFactory.getLogger("GLOBAL_EXCEPTION_HANDLER");
 
     public GlobalExceptionHandler() {
     }
 
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllUncaughtExceptions(Exception ex, WebRequest request) {
         String message = "Unknow Server Error.";
         log.error("Unknow Server Error.", ex);
@@ -56,7 +54,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return this.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    @ExceptionHandler({DataIntegrityViolationException.class})
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         String message = ex.getMostSpecificCause().getMessage();
         log.error(message, ex);
@@ -64,7 +62,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler({AuthenticationException.class})
+    @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException(AuthorizationException ex, WebRequest request) {
         String message = ex.getMessage();
         log.error(message, ex);
@@ -72,7 +70,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
-    @ExceptionHandler({AccessDeniedException.class})
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         String message = ex.getMessage();
         log.error(message, ex);
@@ -80,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
-    @ExceptionHandler({AuthorizationException.class})
+    @ExceptionHandler(AuthorizationException.class)
     public ResponseEntity<Object> handleAuthorizationException(AuthorizationException ex, WebRequest request) {
         String message = ex.getMessage();
         log.error(message, ex);
