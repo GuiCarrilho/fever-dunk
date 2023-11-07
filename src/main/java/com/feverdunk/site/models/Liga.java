@@ -34,7 +34,7 @@ public class Liga {
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
-    private Manager managerId;
+    private Manager manager;
 
     @JsonIgnore
     @OneToMany(mappedBy = "liga")

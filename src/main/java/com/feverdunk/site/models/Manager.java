@@ -1,7 +1,6 @@
 package com.feverdunk.site.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -53,7 +52,7 @@ public class Manager {
     private Time time;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "managerId")
+    @OneToMany(mappedBy = "manager")
     private List<Liga> liga;
 
 
