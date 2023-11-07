@@ -6,6 +6,7 @@ import com.feverdunk.site.models.Participacao;
 import com.feverdunk.site.repository.ParticipacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,12 +28,14 @@ public class ParticipacaoService {
         return participacao.orElseThrow(() -> new ObjectNotFoundException("Participação com id: {" + id + "} não foi encontrado"));
     }
 
+    @Transactional
     public Participacao create(Participacao participacao){
         participacao.setId(null);
 
         return participacaoRepository.save(participacao);
     }
 
+    @Transactional
     public Participacao update(Participacao participacaoNova) {
         Participacao participacao = findById(participacaoNova.getId());
 

@@ -13,10 +13,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,6 +48,7 @@ public class ManagerService {
         }
     }
 
+    @Transactional
     public Manager create(Manager manager) {
         manager.setId(null);
         manager.setSenha(this.bCryptPasswordEncoder.encode(manager.getSenha()));
@@ -55,6 +57,7 @@ public class ManagerService {
         return this.managerRepository.save(manager);
     }
 
+    @Transactional
     public Manager update(Manager managerNovo) {
         Manager manager = this.findById(managerNovo.getId());
         manager.setDinheiro(managerNovo.getDinheiro());
