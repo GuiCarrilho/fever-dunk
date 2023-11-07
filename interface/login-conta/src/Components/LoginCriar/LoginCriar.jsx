@@ -12,6 +12,10 @@ export const LoginCriar = () => {
     await login();
   };
 
+  const handleSignup = async() => {
+    await signup();
+  }
+
   async function login() {
     let email = document.getElementById("email").value;
     let senha = document.getElementById("senha").value;
@@ -20,6 +24,7 @@ export const LoginCriar = () => {
   
     const response = await fetch("http://localhost:8080/login", {
       method: "POST",
+      mode: "no-cors",
       headers: new Headers({
         "Content-Type": "application/json; charset=utf8",
         Accept: "application/json",
@@ -32,7 +37,29 @@ export const LoginCriar = () => {
   
     let key = "Authorization";
     let token = response.headers.get(key);
+    console.log(token);
     window.localStorage.setItem(key, token);
+  }
+
+  async function signup() {
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+
+    console.log(email, senha);
+
+    const response = await fetch("http://localhost:8080/manager", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json; charset=utf8",
+        Accept: "application/json",
+      }),
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        senha: senha,
+      }),
+    });
   }
 
   return (
