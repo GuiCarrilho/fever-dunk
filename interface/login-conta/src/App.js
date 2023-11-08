@@ -1,12 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import { LoginCriar } from './Components/LoginCriar/LoginCriar';
+import Routes from './Components/Routes/roots';
 
 function App() {
   return (
-    <div>
-      <LoginCriar/>
-    </div>
+      <Routes/>
   );
 }
 
