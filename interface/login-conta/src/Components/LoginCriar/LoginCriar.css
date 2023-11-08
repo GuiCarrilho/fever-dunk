@@ -94,3 +94,35 @@
     background: rgb(221, 214, 214);
     color: gray;
 }
+
+.sumir{
+    display: none;
+}
+
+.message-container {
+    position: fixed;
+    top: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff2400;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    z-index: 999;
+    animation: fadeOut 1s linear 10s forwards;
+}
+
+.message-box {
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
