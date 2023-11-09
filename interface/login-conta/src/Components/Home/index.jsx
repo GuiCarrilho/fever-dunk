@@ -6,6 +6,10 @@ function App() {
     { id: 1, name: 'Jogador A', price: 100 },
     { id: 2, name: 'Jogador B', price: 150 },
     { id: 3, name: 'Jogador C', price: 120 },
+    { id: 4, name: 'Jogador D', price: 120 },
+    { id: 5, name: 'Jogador E', price: 120 },
+    { id: 6, name: 'Jogador F', price: 120 },
+    { id: 7, name: 'Jogador G', price: 120 },
     // Adicione mais jogadores disponíveis aqui
   ]);
 
@@ -17,7 +21,7 @@ function App() {
 
   // Função para comprar um jogador
   const buyPlayer = (player) => {
-    if (money >= player.price) {
+    if (money >= player.price && teamPlayers.length < 5) { // Verifique se o time tem menos de 5 jogadores
       // Remove o jogador da lista de jogadores disponíveis
       const updatedAvailablePlayers = availablePlayers.filter((p) => p.id !== player.id);
 
