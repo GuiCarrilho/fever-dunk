@@ -57,6 +57,14 @@ public class ContratoService {
         throw new AuthorizationException("Acesso negado.");
     }
 
+    public List<Contrato> findAllByJogadorId(Long jogadorId){
+        if(temAutorizacao(jogadorId)) {
+            return contratoRepository.findAllByJogadorId(jogadorId);
+        }
+
+        throw new AuthorizationException("Acesso negado.");
+    }
+
     @Transactional
     public Contrato create(Contrato contrato) {
         Long timeId = contrato.getId().getTimeId();;
