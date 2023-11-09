@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/contrato")
@@ -26,49 +27,63 @@ public class ContratoController {
         this.contratoService = contratoService;
     }
 
-    @GetMapping
-    public List<Contrato> getContrato() {
-        return contratoService.getContrato();
-    }
-
-    @GetMapping("/{id}")
-    public Contrato getContratoById(@PathVariable ContratoId id) {
-        return contratoService.findById(id);
+    @GetMapping("/all")
+    public ResponseEntity<List<ContratoOutDTO>> getContrato() {
+        List<Contrato> contratos = contratoService.getContrato();
+        List<ContratoOutDTO> contratosDto = contratos.stream()
+                .map(this::entityToOut).collect(Collectors.toList());
+        return ResponseEntity.ok(contratosDto);
     }
 
     @GetMapping("/time/{id}")
-    public ResponseEntity<List<Contrato>> getContratoByTimeId(@PathVariable Long id) {
+    public ResponseEntity<List<ContratoOutDTO>> getContratoByTimeId(@PathVariable Long id) {
         List<Contrato> contratos = contratoService.findAllByTimeId(id);
-        return ResponseEntity.ok(contratos);
+        List<ContratoOutDTO> contratosDto = contratos.stream()
+                .map(this::entityToOut).collect(Collectors.toList());
+        return ResponseEntity.ok(contratosDto);
+    }
+
+    @GetMapping("/jogador/{id}")
+    public ResponseEntity<List<ContratoOutDTO>> getContratoByJogadorId(@PathVariable Long id) {
+        List<Contrato> contratos = contratoService.findAllByJogadorId(id);
+        List<ContratoOutDTO> contratosDto = contratos.stream()
+                .map(this::entityToOut).collect(Collectors.toList());
+        return ResponseEntity.ok(contratosDto);
     }
 
     @PostMapping
-    public ResponseEntity<Contrato> post(@RequestBody @Validated Contrato contrato) {
+    public ResponseEntity<ContratoOutDTO> post(@RequestBody @Validated ContratoInDTO dto) {
+        Contrato contrato = inToEntity(dto);
         return criarContrato(contrato);
     }
 
     @PutMapping
-    public ResponseEntity<Contrato> put(@RequestBody @Validated Contrato contrato) {
-        try {
-            getContratoById(contrato.getId());
+    public ResponseEntity<ContratoOutDTO> put(@RequestBody @Validated ContratoInDTO dto) {
+        ContratoId contratoId = inToEntity(dto).getId();
+        Contrato contrato = inToEntity(dto);
+        if(contratoId.getTimeId() != null && contratoId.getJogadorId() != null) {
+            try {
+                getContratoByTimeId(dto.getTimeId());
+                getContratoByJogadorId(dto.getJogadorId());
+                ContratoOutDTO outDTO = entityToOut(contratoService.update(contrato));
+                return ResponseEntity.ok(outDTO);
+            } catch (ObjectNotFoundException ex) {
 
-            Contrato contratoAtualizado = contratoService.update(contrato);
-            return ResponseEntity.ok(contratoAtualizado);
-        } catch (ObjectNotFoundException e) {
-
-            return criarContrato(contrato);
+                return criarContrato(contrato);
+            }
         }
+        else return criarContrato(contrato);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Contrato> delete(@PathVariable ContratoId id) {
+    public ResponseEntity<Void> delete(@PathVariable ContratoId id) {
         contratoService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    private ResponseEntity<Contrato> criarContrato(Contrato contrato) {
+    private ResponseEntity<ContratoOutDTO> criarContrato(Contrato contrato) {
         Contrato contratoCriada = contratoService.create(contrato);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -77,15 +92,20 @@ public class ContratoController {
         return ResponseEntity.created(uri).build();
     }
 
-    private ContratoId inToEntity(ContratoInDTO dto) {
+    private Contrato inToEntity(ContratoInDTO dto) {
         ContratoId contratoId = new ContratoId();
+        Contrato contrato = new Contrato();
+        if(contratoId.getJogadorId() == null || contratoId.getTimeId() == null){
+            throw new IllegalArgumentException();
+        }
         try {
             contratoId.setTimeId(dto.getTimeId());
             contratoId.setJogadorId(dto.getJogadorId());
+            contrato.setContratoId(contratoId);
         } catch (NullPointerException ex) {
         }
 
-        return contratoId;
+        return contrato;
     }
 
     private ContratoOutDTO entityToOut(Contrato contrato){
