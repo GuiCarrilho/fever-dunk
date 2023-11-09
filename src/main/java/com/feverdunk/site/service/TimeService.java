@@ -33,6 +33,7 @@ public class TimeService {
     public Time findByManager(){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if(Objects.nonNull(userSpringSecurity)){
+            var a = userSpringSecurity.getId();
             Optional<Time> time = timeRepository.findTimeByManagerId(userSpringSecurity.getId());
 
             return time.orElseThrow(() -> new ObjectNotFoundException("Manager com id: {" +

@@ -37,7 +37,7 @@ public class TimeController {
         return ResponseEntity.ok(time);
     }
 
-    @GetMapping("/manger")
+    @GetMapping("/manager")
     public ResponseEntity<Time> getByManager(){
         Time time = timeService.findByManager();
 

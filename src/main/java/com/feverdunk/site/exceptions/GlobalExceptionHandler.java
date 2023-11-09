@@ -3,6 +3,7 @@ package com.feverdunk.site.exceptions;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,6 +113,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
 
     @ExceptionHandler(NotEnoughFundsException.class)
     public ResponseEntity<Object> handleNotEnoughFundsException(NotEnoughFundsException ex, WebRequest request){
+        String message = ex.getMessage();
+        log.error(message, ex);
+        ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);
+        return this.handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request){
         String message = ex.getMessage();
         log.error(message, ex);
         ProblemDetail body = this.createProblemDetail(ex, HttpStatus.BAD_REQUEST, message, (String)null, (Object[])null, request);

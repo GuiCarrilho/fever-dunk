@@ -37,7 +37,4 @@ public class Contrato {
 
     @Column(name = "vendido_em")
     private LocalDateTime vendidoEm;
-
-    public void setContratoId(ContratoId contratoId) {
-    }
 }

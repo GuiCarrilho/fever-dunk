@@ -16,6 +16,7 @@ public interface TimeRepository extends JpaRepository<Time, Long> {
     public List<Time> findTimesFromLiga(Long ligaId);
 
     @Query(value = "SELECT * FROM times t " +
-            "WHERE t.time_id IN(SELECT m.manager_id FROM managers m)", nativeQuery = true)
+            "WHERE t.time_id IN(SELECT m.manager_id FROM managers m " +
+            "where m.manager_id = ?1)", nativeQuery = true)
     public Optional<Time> findTimeByManagerId(Long id);
 }

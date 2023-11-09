@@ -13,14 +13,17 @@ import java.util.Optional;
 @Service
 public class JogadorService {
     private JogadorRepository jogadorRepository;
+    private ManagerService managerService;
 
     @Autowired
-    public JogadorService(JogadorRepository jogadorRepository){
+    public JogadorService(JogadorRepository jogadorRepository, ManagerService managerService){
         this.jogadorRepository = jogadorRepository;
+        this.managerService = managerService;
     }
 
 
     public List<Jogador> getJogador(){
+
         return jogadorRepository.findAll();
     }
 

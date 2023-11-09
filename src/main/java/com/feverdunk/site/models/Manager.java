@@ -2,6 +2,7 @@ package com.feverdunk.site.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class Manager {
 
     @Column(name = "email", unique = true)
     @NotBlank
+    @Email
     private String email;
 
     @Column(name = "manager_senha")

@@ -109,6 +109,7 @@ public class ManagerController {
         dto.setNome(manager.getNome());
         dto.setEmail(manager.getEmail());
         dto.setPremium(manager.isPremium());
+        dto.setDinheiro(manager.getDinheiro());
 
         try {
             dto.setTimeId(manager.getTime().getId());

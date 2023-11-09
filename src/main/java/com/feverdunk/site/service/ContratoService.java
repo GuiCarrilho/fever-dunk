@@ -1,11 +1,8 @@
 package com.feverdunk.site.service;
 
 import com.feverdunk.site.exceptions.*;
-import com.feverdunk.site.models.Jogador;
-import com.feverdunk.site.models.Manager;
-import com.feverdunk.site.models.Perfil;
+import com.feverdunk.site.models.*;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
-import com.feverdunk.site.models.Contrato;
 import com.feverdunk.site.repository.ContratoRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +20,15 @@ public class ContratoService {
     private final ContratoRepository contratoRepository;
     private ManagerService managerService;
     private JogadorService jogadorService;
+    private TimeService timeService;
 
     @Autowired
-    public ContratoService(ContratoRepository contratoRepository, ManagerService managerService, JogadorService jogadorService){
+    public ContratoService(ContratoRepository contratoRepository, ManagerService managerService,
+                           JogadorService jogadorService, TimeService timeService){
         this.contratoRepository = contratoRepository;
         this.managerService = managerService;
         this.jogadorService = jogadorService;
+        this.timeService = timeService;
     }
 
     public List<Contrato> getContrato() {
@@ -70,13 +70,14 @@ public class ContratoService {
         Long timeId = contrato.getId().getTimeId();;
         if(temAutorizacao(timeId)){
             List<Contrato> contratos = findAllByTimeId(timeId);
-            if(contratos.size() >= 6){
-                throw new MaxSizeException("O time pode ter no máximo 6 jogadores.");
+            if(contratos.size() >= 5){
+                throw new MaxSizeException("O time pode ter no máximo 5 jogadores.");
             }
-            Jogador jogador = jogadorService.findById(contrato.getJogador().getId());
+            Jogador jogador = jogadorService.findById(contrato.getId().getJogadorId());
+            Time time = timeService.findById(contrato.getId().getTimeId());
             Manager manager = managerService.findById(ManagerService.authenticated().getId());
             for(Contrato c: contratos){
-                if(c.getTime().getId().equals(timeId) && Objects.nonNull(c.getVendidoEm())){
+                if(c.getJogador().getId().equals(jogador.getId()) && Objects.isNull(c.getVendidoEm())){
                     throw new EntityAlreadyExistsExeption("O jogador com id: {" + jogador.getId() +"} já faz parte do time.");
                 }
             }
@@ -84,13 +85,16 @@ public class ContratoService {
                 throw new NotEnoughFundsException("O manager com id: {" + manager.getId() + "} não tem +" +
                         "fundos suficientes para adquirir o jogador com id {" + jogador.getId()+ "}.");
             }
+            contrato.setTime(time);
+            contrato.setJogador(jogador);
+            contrato.setAdquiridoEm(LocalDateTime.now());
             int dinheiroResultante = manager.getDinheiro() - jogador.getValor();
             manager.setDinheiro(dinheiroResultante);
             managerService.update(manager);
             return contratoRepository.save(contrato);
         }
 
-        return contratoRepository.save(contrato);
+        throw new AuthorizationException("Acesso negado.");
     }
 
     @Transactional

@@ -6,12 +6,13 @@ function App() {
   const [availablePlayers, setAvailablePlayers] = useState([]);
   const [teamPlayers, setTeamPlayers] = useState([]);
   const [money, setMoney] = useState(1000);
+  const[time, setTime] = useState();
 
   const iniciar = async () => {
     const manager = await getManager();
     setMoney(manager['dinheiro']);
-
     await getPlayers();
+    setTime(await getTime());
   }
 
   const getManager = async () => {
@@ -48,10 +49,11 @@ function App() {
 
   const getPlayers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/jogadores", {
+      const response = await fetch("http://localhost:8080/jogador", {
         method: "GET",
         headers: {
           Accept: "application/json",
+          Authorization: window.localStorage.getItem("Authorization")
         },
       });
 
@@ -66,15 +68,20 @@ function App() {
     }
   };
 
-  const buyPlayer = (player) => {
+  const buyPlayer = async (player) => {
     if (money >= player['valor'] && teamPlayers.length < 5) {
       try {
-        const response =  fetch("http://localhost:8080/contrato", {
+        const response =  await fetch("http://localhost:8080/contrato", {
           method: "POST",
           headers: {
+            "Content-Type": "application/json; charset=utf8",
             Accept: "application/json",
+            Authorization: window.localStorage.getItem('Authorization'),
           },
-          body: "{\n\"jogadorId\":" + player['id'] + "\n\"timeId\":" + getTime()["id"] + "\n}"
+          body: JSON.stringify({
+            jogadorId: player['id'],
+            timeId: time['id'],
+          }),
         });
 
 
@@ -88,18 +95,26 @@ function App() {
       } catch (error){
 
       }
+    }else {
+      console.log('Compra invalida');
     }
   };
 
-  const sellPlayer = (player) => {
+  const sellPlayer = async (player) => {
     try {
-      const response = fetch("http://localhost:8080/contrato", {
+      const response =  await fetch("http://localhost:8080/contrato", {
         method: "DELETE",
         headers: {
+          "Content-Type": "application/json; charset=utf8",
           Accept: "application/json",
+          Authorization: window.localStorage.getItem('Authorization'),
         },
-        body: "{\n\"jogadorId\":" + player['id'] + "\n\"timeId\":" + getTime()["id"] + "\n}"
+        body: JSON.stringify({
+          jogadorId: player['id'],
+          timeId: time['id'],
+        }),
       });
+
       const updatedTeamPlayers = teamPlayers.filter((p) => p.id !== player.id);
       const updatedAvailablePlayers = [...availablePlayers, player];
       const updatedMoney = money + player['valor'];
@@ -127,8 +142,8 @@ function App() {
             <h3>Jogadores Disponíveis</h3>
             <ul>
               {availablePlayers.map((player) => (
-                <li key={player.id}>
-                  {player.name} - ${player.price}
+                <li key={player['id']}>
+                  {player['nome']} - ${player['valor']}
                   <button onClick={() => buyPlayer(player)}>Comprar</button>
                 </li>
               ))}
@@ -141,7 +156,7 @@ function App() {
             <ul>
               {teamPlayers.map((player) => (
                 <li key={player.id}>
-                  {player.name} - ${player.price}
+                  {player['nome']} - ${player['valor']}
                   <button onClick={() => sellPlayer(player)}>Vender</button>
                 </li>
               ))}

@@ -76,8 +76,8 @@ public class ContratoController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable ContratoId id) {
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@RequestBody ContratoId id) {
         contratoService.delete(id);
 
         return ResponseEntity.noContent().build();
@@ -95,14 +95,15 @@ public class ContratoController {
     private Contrato inToEntity(ContratoInDTO dto) {
         ContratoId contratoId = new ContratoId();
         Contrato contrato = new Contrato();
-        if(contratoId.getJogadorId() == null || contratoId.getTimeId() == null){
+        if(dto.getJogadorId() == null || dto.getTimeId() == null){
             throw new IllegalArgumentException();
         }
         try {
             contratoId.setTimeId(dto.getTimeId());
             contratoId.setJogadorId(dto.getJogadorId());
-            contrato.setContratoId(contratoId);
+            contrato.setId(contratoId);
         } catch (NullPointerException ex) {
+
         }
 
         return contrato;

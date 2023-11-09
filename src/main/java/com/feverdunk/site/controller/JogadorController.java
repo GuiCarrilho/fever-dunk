@@ -23,7 +23,7 @@ public class JogadorController {
     public JogadorController(JogadorService jogadorService){
         this.jogadorService = jogadorService;
     }
-    @PreAuthorize("ROLE_USER")
+
     @GetMapping
     public ResponseEntity<List<Jogador>> getJogador(){
         List<Jogador> jogadores = jogadorService.getJogador();
