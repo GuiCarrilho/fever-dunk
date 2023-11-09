@@ -46,7 +46,7 @@ export const LoginCriar = () => {
       const key = "Authorization";
       window.localStorage.setItem(key, token);
 
-      if(response.statusCode !== 200){
+      if(response.status !== 200){
         displayMessage("Login falhou.");
       }
 
@@ -74,12 +74,13 @@ export const LoginCriar = () => {
         }),
       });
 
-      if(response.statusCode === 201){
+      if(response.status ===  201){
         setMessage("Registro concluído com sucesso");
         setAction("Login");
       }
       else {
         displayMessage("Registro não foi concluído com sucesso.");
+        console.log(response.status);
       }
 
       }catch (error){
