@@ -37,6 +37,13 @@ public class TimeController {
         return ResponseEntity.ok(time);
     }
 
+    @GetMapping("/manger")
+    public ResponseEntity<Time> getByManager(){
+        Time time = timeService.findByManager();
+
+        return ResponseEntity.ok(time);
+    }
+
     @GetMapping("/liga/{ligaId}")
     public ResponseEntity<List<Time>> getTimeFromLiga(@PathVariable Long ligaId){
         List<Time> time = timeService.getTimeFromLiga(ligaId);

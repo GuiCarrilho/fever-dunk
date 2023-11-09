@@ -48,7 +48,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = userSpringSecurity.getUsername();
         String token = this.jwtUtil.generateToken(username);
         response.addHeader("Authorization", "Bearer " + token);
-        response.getWriter().print("{\n" + "\"authorization\": \"" + token + "\"\n}"); //Sim, está passando pelo body. Sim, sabemos que não é o ideal, mas é o que tá tendo.
+        response.getWriter().print("{\n" + "\"authorization\": \"" + "Bearer " + token + "\"\n}"); //Sim, está passando pelo body. Sim, sabemos que não é o ideal, mas é o que tá tendo.
         response.addHeader("acess-control-expose-headers", "Authorization");
     }
 }
