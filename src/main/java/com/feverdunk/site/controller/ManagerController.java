@@ -24,13 +24,21 @@ public class ManagerController {
     @Autowired
     public ManagerController(ManagerService managerService){ this.managerService = managerService; }
 
-    @GetMapping
-    public ResponseEntity<List<ManagerOutDTO>> getManager(){
-        List<Manager> managers = managerService.getManager();
+    @GetMapping("/all")
+    public ResponseEntity<List<ManagerOutDTO>> getManagers(){
+        List<Manager> managers = managerService.getManagers();
         List<ManagerOutDTO> managersDto = managers.stream()
                 .map(this::entityToOut).collect(Collectors.toList());
 
         return ResponseEntity.ok(managersDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<ManagerOutDTO> getManager(){
+        Manager manager = managerService.getManager();
+        ManagerOutDTO dto = entityToOut(manager);
+
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")

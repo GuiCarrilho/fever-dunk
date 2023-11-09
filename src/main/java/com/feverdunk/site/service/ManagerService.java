@@ -32,13 +32,23 @@ public class ManagerService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public List<Manager> getManager() {
+    public List<Manager> getManagers() {
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if (Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN)) {
             return this.managerRepository.findAll();
         }
 
         throw new AuthorizationException("Acesso negado");
+    }
+
+    public Manager getManager() {
+        UserSpringSecurity userSpringSecurity = authenticated();
+        if(Objects.nonNull(userSpringSecurity)) {
+            return findById(userSpringSecurity.getId());
+        }
+        else {
+            throw new AuthorizationException("Acesso negado.");
+        }
     }
 
     public Manager findById(Long id) {
