@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Index from '../Home';
+import Index from '../Home/index';
 import { LoginCriar } from '../LoginCriar/LoginCriar'
 
 const roots = () => {
