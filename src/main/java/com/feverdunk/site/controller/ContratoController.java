@@ -88,7 +88,7 @@ public class ContratoController {
         return contratoId;
     }
 
-    private ContratoOutDTO entityToOut(Contrato contrato) throws Exception {
+    private ContratoOutDTO entityToOut(Contrato contrato){
         ContratoId contratoId = new ContratoId();
         if(contratoId.getJogadorId() == null || contratoId.getTimeId() == null){
             throw new IllegalArgumentException();
