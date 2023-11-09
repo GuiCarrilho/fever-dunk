@@ -1,5 +1,7 @@
 package com.feverdunk.site.controller;
 
+import com.feverdunk.site.dto.contrato.ContratoInDTO;
+import com.feverdunk.site.dto.contrato.ContratoOutDTO;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
@@ -20,37 +22,39 @@ public class ContratoController {
     private final ContratoService contratoService;
 
     @Autowired
-    public ContratoController(ContratoService contratoService){this.contratoService = contratoService;}
+    public ContratoController(ContratoService contratoService) {
+        this.contratoService = contratoService;
+    }
 
     @GetMapping
-    public List<Contrato> getContrato(){
+    public List<Contrato> getContrato() {
         return contratoService.getContrato();
     }
 
     @GetMapping("/{id}")
-    public Contrato getContratoById(@PathVariable ContratoId id){
+    public Contrato getContratoById(@PathVariable ContratoId id) {
         return contratoService.findById(id);
     }
 
     @GetMapping("/time/{id}")
-    public ResponseEntity<List<Contrato>> getContratoByTimeId(@PathVariable Long id){
+    public ResponseEntity<List<Contrato>> getContratoByTimeId(@PathVariable Long id) {
         List<Contrato> contratos = contratoService.findAllByTimeId(id);
         return ResponseEntity.ok(contratos);
     }
 
     @PostMapping
-    public ResponseEntity<Contrato> post(@RequestBody @Validated Contrato contrato){
+    public ResponseEntity<Contrato> post(@RequestBody @Validated Contrato contrato) {
         return criarContrato(contrato);
     }
 
     @PutMapping
-    public ResponseEntity<Contrato> put(@RequestBody @Validated Contrato contrato){
-        try{
+    public ResponseEntity<Contrato> put(@RequestBody @Validated Contrato contrato) {
+        try {
             getContratoById(contrato.getId());
 
             Contrato contratoAtualizado = contratoService.update(contrato);
             return ResponseEntity.ok(contratoAtualizado);
-        }catch (ObjectNotFoundException e){
+        } catch (ObjectNotFoundException e) {
 
             return criarContrato(contrato);
         }
@@ -58,7 +62,7 @@ public class ContratoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Contrato> delete(@PathVariable ContratoId id){
+    public ResponseEntity<Contrato> delete(@PathVariable ContratoId id) {
         contratoService.delete(id);
 
         return ResponseEntity.noContent().build();
@@ -71,5 +75,30 @@ public class ContratoController {
                 .path("{/id}").buildAndExpand(contratoCriada.getId()).toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    private ContratoId inToEntity(ContratoInDTO dto) {
+        ContratoId contratoId = new ContratoId();
+        try {
+            contratoId.setTimeId(dto.getTimeId());
+            contratoId.setJogadorId(dto.getJogadorId());
+        } catch (NullPointerException ex) {
+        }
+
+        return contratoId;
+    }
+
+    private ContratoOutDTO entityToOut(Contrato contrato) throws Exception {
+        ContratoId contratoId = new ContratoId();
+        if(contratoId.getJogadorId() == null || contratoId.getTimeId() == null){
+            throw new IllegalArgumentException();
+        }
+        ContratoOutDTO dto = new ContratoOutDTO();
+        dto.setJogadorId(contratoId.getJogadorId());
+        dto.setTimeId(contratoId.getTimeId());
+        dto.setAdquiridoEm(contrato.getAdquiridoEm());
+        dto.setVendidoEm(contrato.getVendidoEm());
+
+        return dto;
     }
 }
