@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css'
 
 function App() {
   // Lista de jogadores disponíveis para compra
@@ -54,32 +55,39 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Monte Seu Time de Basquete</h1>
+      <div>
+      <div className="titulo">Gerencie Seu Time de Basquete!</div>
+      <div className="sublinha"></div>
       <div>
         <h2>Dinheiro Disponível: ${money}</h2>
       </div>
-      <div>
-        <h3>Jogadores Disponíveis</h3>
-        <ul>
-          {availablePlayers.map((player) => (
-            <li key={player.id}>
-              {player.name} - ${player.price}
-              <button onClick={() => buyPlayer(player)}>Comprar</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Seu Time</h3>
-        <ul>
-          {teamPlayers.map((player) => (
-            <li key={player.id}>
-              {player.name} - ${player.price}
-              <button onClick={() => sellPlayer(player)}>Vender</button>
-            </li>
-          ))}
-        </ul>
+      <div className="columns">
+        <div className="column">
+          <div>
+            <h3>Jogadores Disponíveis</h3>
+            <ul>
+              {availablePlayers.map((player) => (
+                <li key={player.id}>
+                  {player.name} - ${player.price}
+                  <button onClick={() => buyPlayer(player)}>Comprar</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="column">
+          <div>
+            <h3>Seu Time</h3>
+            <ul>
+              {teamPlayers.map((player) => (
+                <li key={player.id}>
+                  {player.name} - ${player.price}
+                  <button onClick={() => sellPlayer(player)}>Vender</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
