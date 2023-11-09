@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './index.css'
+import backgroundImg from '../Assets/quadra-basquete.jpg';
 
 function App() {
   // Lista de jogadores disponíveis para compra
@@ -55,9 +56,8 @@ function App() {
   };
 
   return (
-      <div>
+  <div style={{ backgroundImage: `url(${backgroundImg})` }} className="app-container">
       <div className="titulo">Gerencie Seu Time de Basquete!</div>
-      <div className="sublinha"></div>
       <div>
         <h2>Dinheiro Disponível: ${money}</h2>
       </div>
