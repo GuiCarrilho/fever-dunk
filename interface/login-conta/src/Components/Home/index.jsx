@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import './index.css';
+import React, { useState } from 'react';
 
-const Index = () => {
+function App() {
   // Lista de jogadores disponíveis para compra
   const [availablePlayers, setAvailablePlayers] = useState([
     { id: 1, name: 'Jogador A', price: 100 },
@@ -16,6 +15,40 @@ const Index = () => {
   // Dinheiro disponível
   const [money, setMoney] = useState(1000);
 
+  // Função para comprar um jogador
+  const buyPlayer = (player) => {
+    if (money >= player.price) {
+      // Remove o jogador da lista de jogadores disponíveis
+      const updatedAvailablePlayers = availablePlayers.filter((p) => p.id !== player.id);
+
+      // Adiciona o jogador à lista do time
+      const updatedTeamPlayers = [...teamPlayers, player];
+
+      // Atualiza o dinheiro disponível
+      const updatedMoney = money - player.price;
+
+      setAvailablePlayers(updatedAvailablePlayers);
+      setTeamPlayers(updatedTeamPlayers);
+      setMoney(updatedMoney);
+    }
+  };
+
+  // Função para vender um jogador
+  const sellPlayer = (player) => {
+    // Remove o jogador da lista do time
+    const updatedTeamPlayers = teamPlayers.filter((p) => p.id !== player.id);
+
+    // Adiciona o jogador à lista de jogadores disponíveis
+    const updatedAvailablePlayers = [...availablePlayers, player];
+
+    // Atualiza o dinheiro disponível
+    const updatedMoney = money + player.price;
+
+    setAvailablePlayers(updatedAvailablePlayers);
+    setTeamPlayers(updatedTeamPlayers);
+    setMoney(updatedMoney);
+  };
+
   return (
     <div>
       <h1>Monte Seu Time de Basquete</h1>
@@ -28,7 +61,7 @@ const Index = () => {
           {availablePlayers.map((player) => (
             <li key={player.id}>
               {player.name} - ${player.price}
-              <button>Comprar</button>
+              <button onClick={() => buyPlayer(player)}>Comprar</button>
             </li>
           ))}
         </ul>
@@ -39,13 +72,13 @@ const Index = () => {
           {teamPlayers.map((player) => (
             <li key={player.id}>
               {player.name} - ${player.price}
-              <button>Vender</button>
+              <button onClick={() => sellPlayer(player)}>Vender</button>
             </li>
           ))}
         </ul>
       </div>
     </div>
   );
-};
+}
 
-export default Index;
+export default App;
