@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import './LoginCriar.css'
 import email_icon from '../Assets/email.png'
 import password_icon from '../Assets/password.png'
 
 export const LoginCriar = () => {
-
+  const navigate = useNavigate();
   const [action, setAction] = useState("Registrar");
   const [message, setMessage] = useState("");
 
@@ -46,12 +47,14 @@ export const LoginCriar = () => {
       const key = "Authorization";
       window.localStorage.setItem(key, token);
 
-      if(response.status !== 200){
-        displayMessage("Login falhou.");
+      if (response.status === 200) {
+        // Redireciona para /index após o login ser aceito
+        navigate('/index');
+      } else {
+        displayMessage('Login falhou.');
       }
-
     } catch (error) {
-      displayMessage("Login falhou.");
+      displayMessage('Login falhou.');
     }
   }
 
