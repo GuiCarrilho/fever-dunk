@@ -3,7 +3,6 @@ package com.feverdunk.site.service;
 import com.feverdunk.site.exceptions.AuthorizationException;
 import com.feverdunk.site.exceptions.EntityAlreadyExistsExeption;
 import com.feverdunk.site.models.Perfil;
-import com.feverdunk.site.models.compositeIDs.ParticipacaoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Participacao;
 import com.feverdunk.site.repository.ParticipacaoRepository;
@@ -20,8 +19,8 @@ import java.util.Optional;
 @Service
 public class ParticipacaoService {
 
-    private ParticipacaoRepository participacaoRepository;
-    private ManagerService managerService;
+    private final ParticipacaoRepository participacaoRepository;
+    private final ManagerService managerService;
 
     @Autowired
     public ParticipacaoService(ParticipacaoRepository participacaoRepository, ManagerService managerService){
@@ -88,7 +87,6 @@ public class ParticipacaoService {
 
     private boolean temAutorizacao(String timeId){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
-        Participacao participacao = participacaoRepository.findById(timeId).orElseThrow(RuntimeException::new);
         return Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) ||
                 timeId.equals(managerService.findById(userSpringSecurity.getId()).getTime().getId()));
     }

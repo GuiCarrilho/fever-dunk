@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/time")
 public class TimeController {
 
-    private TimeService timeService;
+    private final TimeService timeService;
 
     @Autowired
     public TimeController(TimeService timeService) {this.timeService = timeService;}

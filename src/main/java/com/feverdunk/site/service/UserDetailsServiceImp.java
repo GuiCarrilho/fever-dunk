@@ -9,11 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
-    private ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
     @Autowired
     public UserDetailsServiceImp(ManagerRepository managerRepository) {

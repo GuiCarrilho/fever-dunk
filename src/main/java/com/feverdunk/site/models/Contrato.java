@@ -1,6 +1,5 @@
 package com.feverdunk.site.models;
 
-import com.feverdunk.site.models.compositeIDs.ContratoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Document(collection = "contratos")
 @Data

@@ -1,6 +1,5 @@
 package com.feverdunk.site.models;
 
-import com.feverdunk.site.models.compositeIDs.ParticipacaoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

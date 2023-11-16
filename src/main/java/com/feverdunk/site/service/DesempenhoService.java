@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class DesempenhoService {
 
-    private DesempenhoRepository desempenhoRepository;
+    private final DesempenhoRepository desempenhoRepository;
 
     @Autowired
     public DesempenhoService(DesempenhoRepository desempenhoRepository) {this.desempenhoRepository = desempenhoRepository;}

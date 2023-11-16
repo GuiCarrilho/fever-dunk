@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ManagerRepository extends MongoRepository<Manager, String> {
-    public Optional<Manager> findByEmail(String email);
+    Optional<Manager> findByEmail(String email);
 }

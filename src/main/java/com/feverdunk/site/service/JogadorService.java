@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Service
 public class JogadorService {
-    private JogadorRepository jogadorRepository;
-    private ManagerService managerService;
+    private final JogadorRepository jogadorRepository;
+    private final ManagerService managerService;
 
     @Autowired
     public JogadorService(JogadorRepository jogadorRepository, ManagerService managerService){
@@ -21,12 +21,10 @@ public class JogadorService {
         this.managerService = managerService;
     }
 
-
     public List<Jogador> getJogador(){
 
         return jogadorRepository.findAll();
     }
-
 
     public Jogador findById(String id){
         Optional<Jogador> jogador = jogadorRepository.findById(id);

@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/desempenho")
 public class DesempenhoController {
 
-    private DesempenhoService desempenhoService;
+    private final DesempenhoService desempenhoService;
 
     @Autowired
     public DesempenhoController(DesempenhoService desempenhoService) {this.desempenhoService = desempenhoService; }

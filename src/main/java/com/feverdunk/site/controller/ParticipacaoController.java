@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/participacao")
 public class ParticipacaoController {
 
-    private ParticipacaoService participacaoService;
+    private final ParticipacaoService participacaoService;
 
     @Autowired
     public ParticipacaoController(ParticipacaoService participacaoService){ this.participacaoService = participacaoService; }

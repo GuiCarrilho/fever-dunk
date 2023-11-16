@@ -19,8 +19,8 @@ import java.util.Optional;
 @Service
 public class TimeService {
 
-    private TimeRepository timeRepository;
-    private ManagerService managerService;
+    private final TimeRepository timeRepository;
+    private final ManagerService managerService;
 
     @Autowired
     public TimeService(TimeRepository timeRepository, ManagerService managerService) {

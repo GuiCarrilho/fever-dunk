@@ -2,7 +2,6 @@ package com.feverdunk.site.service;
 
 import com.feverdunk.site.exceptions.*;
 import com.feverdunk.site.models.*;
-import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.repository.ContratoRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,9 @@ import java.util.Optional;
 public class ContratoService {
 
     private final ContratoRepository contratoRepository;
-    private ManagerService managerService;
-    private JogadorService jogadorService;
-    private TimeService timeService;
+    private final ManagerService managerService;
+    private final JogadorService jogadorService;
+    private final TimeService timeService;
 
     @Autowired
     public ContratoService(ContratoRepository contratoRepository, ManagerService managerService,

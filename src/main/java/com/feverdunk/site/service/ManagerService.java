@@ -4,12 +4,9 @@ import com.feverdunk.site.exceptions.AuthorizationException;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Manager;
 import com.feverdunk.site.models.Perfil;
-import com.feverdunk.site.models.Time;
 import com.feverdunk.site.repository.ManagerRepository;
 import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,7 @@ import java.util.stream.Stream;
 @Service
 public class ManagerService {
     private final ManagerRepository managerRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public ManagerService(ManagerRepository managerRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -55,9 +52,7 @@ public class ManagerService {
         UserSpringSecurity userSpringSecurity = authenticated();
         if (Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) || id.equals(userSpringSecurity.getId()))) {
             Optional<Manager> manager = this.managerRepository.findById(id);
-            return manager.orElseThrow(() -> {
-                return new ObjectNotFoundException("Manager com id: {" + id + "} não foi encontrado");
-            });
+            return manager.orElseThrow(() -> new ObjectNotFoundException("Manager com id: {" + id + "} não foi encontrado"));
         } else {
             throw new AuthorizationException("Acesso negado.");
         }
@@ -87,9 +82,6 @@ public class ManagerService {
 
     public static UserSpringSecurity authenticated() {
         try {
-            SecurityContext context = SecurityContextHolder.getContext();
-            Authentication authentication = context.getAuthentication();
-            Object principal = authentication.getPrincipal();
             return (UserSpringSecurity)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception var3) {
             return null;

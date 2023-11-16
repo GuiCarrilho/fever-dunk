@@ -25,7 +25,9 @@ public class Liga {
     @NotBlank
     private String senha;
 
+    @Field("manager")
     private Manager manager;
 
+    @Field("participacoes")
     private List<Participacao> participacao;
 }

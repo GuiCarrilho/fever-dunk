@@ -12,8 +12,8 @@ public enum Perfil {
     ADMIN(1, "ROLE_ADMIN"),
     USER(2, "ROLE_USER");
 
-    private Integer codigo;
-    private String descricao;
+    private final Integer codigo;
+    private final String descricao;
 
     public static Perfil toEnum(Integer cod) {
         if (Objects.isNull(cod)) {
