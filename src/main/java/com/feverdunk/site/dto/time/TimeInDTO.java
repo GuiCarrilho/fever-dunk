@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimeInDTO {
-    private Long id;
+    private String id;
     private String nome;
 }

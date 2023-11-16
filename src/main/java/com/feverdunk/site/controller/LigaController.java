@@ -25,16 +25,16 @@ public class LigaController {
     public List<Liga> getLiga(){ return ligaService.getLiga(); }
 
     @GetMapping("/{id}")
-    public Liga getById(Long id){ return ligaService.findById(id);}
+    public Liga getById(String id){ return ligaService.findById(id);}
 
     @GetMapping("/time/{id}")
-    public ResponseEntity<List<Liga>> getLigaByTimeId(@PathVariable Long id){
+    public ResponseEntity<List<Liga>> getLigaByTimeId(@PathVariable String id){
         List<Liga> ligas = ligaService.findAllByTimeId(id);
         return ResponseEntity.ok(ligas);
     }
 
     @GetMapping("/manager/{id}")
-    public ResponseEntity<List<Liga>> getLigaByManagerId(@PathVariable Long id){
+    public ResponseEntity<List<Liga>> getLigaByManagerId(@PathVariable String id){
         List<Liga> ligas = ligaService.findAllByManagerId(id);
         return ResponseEntity.ok(ligas);
     }
@@ -56,7 +56,7 @@ public class LigaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Liga> delete(@PathVariable Long id){
+    public ResponseEntity<Liga> delete(@PathVariable String id){
         ligaService.delete(id);
 
         return ResponseEntity.noContent().build();

@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class UserSpringSecurity implements UserDetails {
-    private Long id;
+    private String id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> autoridades;
 
-    public UserSpringSecurity(Long id, String username, String password, Set<Perfil> perfis) {
+    public UserSpringSecurity(String id, String username, String password, Set<Perfil> perfis) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,7 +31,7 @@ public class UserSpringSecurity implements UserDetails {
         return this.getAuthorities().contains(new SimpleGrantedAuthority(p.getDescricao()));
     }
 
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 

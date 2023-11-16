@@ -30,7 +30,7 @@ public class TimeService {
 
     public List<Time> getTime() {return timeRepository.findAll();}
 
-    public Time findByManager(){
+    /*public Time findByManager(){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if(Objects.nonNull(userSpringSecurity)){
             var a = userSpringSecurity.getId();
@@ -41,9 +41,9 @@ public class TimeService {
         }
 
         throw new AuthorizationException("Acesso negado.");
-    }
+    }*/
 
-    public Time findById(Long id){
+    public Time findById(String id){
         Optional<Time> time = timeRepository.findById(id);
 
         return time.orElseThrow(() -> new ObjectNotFoundException("Time com id: {" + id + "} não foi encontrado"));
@@ -81,7 +81,7 @@ public class TimeService {
         return timeRepository.save(time);
     }
 
-    public void delete(Long id){
+    public void delete(String id){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
         if(Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN)) {
             timeRepository.delete(findById(id));
@@ -90,5 +90,5 @@ public class TimeService {
         throw new AuthorizationException("Acesso negado.");
     }
 
-    public List<Time> getTimeFromLiga(Long LigaId) { return timeRepository.findTimesFromLiga(LigaId); }
+    public List<Time> getTimeFromLiga(String LigaId) { return timeRepository.findAllByParticipacoes_Liga_id(LigaId); }
 }

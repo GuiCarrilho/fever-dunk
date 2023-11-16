@@ -30,7 +30,7 @@ public class ParticipacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Participacao> getById(@PathVariable ParticipacaoId id){
+    public ResponseEntity<Participacao> getById(@PathVariable String id){
         Participacao participacao = participacaoService.findById(id);
 
         return ResponseEntity.ok(participacao);
@@ -38,13 +38,13 @@ public class ParticipacaoController {
 
     @PostMapping("/{senha}")
     public ResponseEntity<Participacao> post(@RequestBody @Validated Participacao participacao,
-                                             @PathVariable Long senha){
+                                             @PathVariable String senha){
         return criarParticipacao(participacao, senha);
     }
 
     @PutMapping("/{senha}")
     public ResponseEntity<Participacao> put(@RequestBody @Validated Participacao participacao,
-                                            @PathVariable Long senha){
+                                            @PathVariable String senha){
         try{
             participacaoService.findById(participacao.getId());
 
@@ -57,13 +57,13 @@ public class ParticipacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable ParticipacaoId id){
+    public ResponseEntity<Void> delete(@PathVariable String id){
         participacaoService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    private ResponseEntity<Participacao> criarParticipacao(Participacao participacao, Long senha){
+    private ResponseEntity<Participacao> criarParticipacao(Participacao participacao, String senha){
         Participacao participacaoCriada = participacaoService.create(participacao, senha);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()

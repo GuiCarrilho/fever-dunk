@@ -2,34 +2,29 @@ package com.feverdunk.site.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Entity
-@Table(name = "times")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Document(collection = "times")
+@Data
 public class Time {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "time_id")
-    private Long id;
+    private String id;
 
-    @Column(name = "time_nome")
+    @Field("time_nome")
     private String nome;
 
-    @Column(name = "time_pontuacao")
-    private Integer pontuacao;
+    @Field("time_pontuacao")
+    private int pontuacao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "time")
+    @Field("contratos")
     private List<Contrato> contratos;
 
+    @Field("participacoes")
+    private List<Participacao> participacoes;
 }

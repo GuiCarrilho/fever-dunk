@@ -21,17 +21,17 @@ public class LigaService {
         return ligaRepository.findAll();
     }
 
-    public Liga findById(Long id) {
+    public Liga findById(String id) {
         Optional<Liga> liga = ligaRepository.findById(id);
 
         return liga.orElseThrow(() -> new ObjectNotFoundException("Liga com id: {" + id + "} não foi encontrado"));
     }
 
-    public List<Liga> findAllByTimeId(Long timeId){
-        return ligaRepository.findAllByTimeId(timeId);
+    public List<Liga> findAllByTimeId(String timeId){
+        return ligaRepository.findAllByParticipacao_Time_id(timeId);
     }
 
-    public List<Liga> findAllByManagerId(Long managerId) { return ligaRepository.findAllByManagerId(managerId); }
+    public List<Liga> findAllByManagerId(String managerId) { return ligaRepository.findAllByManagerId(managerId); }
 
     @Transactional
     public Liga create(Liga liga) {
@@ -52,7 +52,7 @@ public class LigaService {
         return ligaRepository.save(liga);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         Liga liga = findById(id);
 
         ligaRepository.delete(liga);

@@ -29,7 +29,7 @@ public class DesempenhoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Desempenho> getById(@PathVariable Long id){
+    public ResponseEntity<Desempenho> getById(@PathVariable String id){
         Desempenho desempenho = desempenhoService.findById(id);
         return ResponseEntity.ok(desempenho);
     }
@@ -54,7 +54,7 @@ public class DesempenhoController {
 
     @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable String id){
         desempenhoService.delete(id);
 
         return ResponseEntity.noContent().build();

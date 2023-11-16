@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class ContratoId implements Serializable {
 
     @Column(name = "jogador_id_contrato")
-    private Long jogadorId;
+    private String jogadorId;
 
     @Column(name = "time_id_contrato")
-    private Long timeId;
+    private String timeId;
 }

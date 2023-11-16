@@ -38,8 +38,8 @@ public class ParticipacaoService {
         throw new AuthorizationException("Acesso negado.");
     }
 
-    public Participacao findById(ParticipacaoId id) {
-        if (temAutorizacao(id.getTimeId())) {
+    public Participacao findById(String id) {
+        if (temAutorizacao(id)) {
             Optional<Participacao> participacao = participacaoRepository.findById(id);
             return participacao.orElseThrow(() -> new ObjectNotFoundException("Participação com id: {" + id + "} não foi encontrado"));
         }
@@ -48,7 +48,7 @@ public class ParticipacaoService {
     }
 
     @Transactional
-    public Participacao create(Participacao participacao, Long senha){
+    public Participacao create(Participacao participacao, String senha){
         try{
             findById(participacao.getId());
             throw new EntityAlreadyExistsExeption("Jogador já está presente na liga.");
@@ -79,15 +79,16 @@ public class ParticipacaoService {
         throw new AuthorizationException("Acesso negado.");
     }
 
-    public void delete(ParticipacaoId id){
+    public void delete(String id){
         Participacao participacao = findById(id);
         LocalDateTime data = LocalDateTime.now();
         participacao.setAte(data);
         participacaoRepository.save(participacao);
     }
 
-    private boolean temAutorizacao(Long timeId){
+    private boolean temAutorizacao(String timeId){
         UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        Participacao participacao = participacaoRepository.findById(timeId).orElseThrow(RuntimeException::new);
         return Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) ||
                 timeId.equals(managerService.findById(userSpringSecurity.getId()).getTime().getId()));
     }

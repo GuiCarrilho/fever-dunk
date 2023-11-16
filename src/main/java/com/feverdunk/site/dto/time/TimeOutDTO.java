@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimeOutDTO {
-    private Long id;
+    private String id;
     private String nome;
     private Integer pontuacao;
     private List<Contrato> contratos;

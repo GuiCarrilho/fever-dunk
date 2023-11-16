@@ -31,14 +31,14 @@ public class JogadorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Jogador> getById(@PathVariable Long id){
+    public ResponseEntity<Jogador> getById(@PathVariable String id){
         Jogador jogador = jogadorService.findById(id);
 
         return ResponseEntity.ok(jogador);
     }
 
     @GetMapping("/time/{id}")
-    public ResponseEntity<List<Jogador>> getJogadorByTimeId(@PathVariable Long id){
+    public ResponseEntity<List<Jogador>> getJogadorByTimeId(@PathVariable String id){
         List<Jogador> jogadores = jogadorService.findAllByTimeId(id);
         return ResponseEntity.ok(jogadores);
     }
@@ -66,7 +66,7 @@ public class JogadorController {
 
     @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable String id){
         jogadorService.delete(id);
 
         return ResponseEntity.noContent().build();

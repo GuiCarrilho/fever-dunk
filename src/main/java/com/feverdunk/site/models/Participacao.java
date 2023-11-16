@@ -3,38 +3,32 @@ package com.feverdunk.site.models;
 import com.feverdunk.site.models.compositeIDs.ParticipacaoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "participacoes")
+@Document(collection = "participacoes")
+@Data
 public class Participacao {
 
-    @EmbeddedId
-    private ParticipacaoId id;
+    @Id
+    private String id;
 
-    @ManyToOne
-    @MapsId("ligaId")
-    @JoinColumn(name = "participacao_id_liga")
+    @Field("participacao_id_liga")
+    @DBRef
     private Liga liga;
 
-    @ManyToOne
-    @MapsId("timeId")
-    @JoinColumn(name = "participacao_id_time", referencedColumnName = "time_id")
+    @Field("participacao_id_time")
+    @DBRef
     private Time time;
 
-    @Column(name = "participacao_data")
+    @Field("participacao_data")
     @NotNull
     private LocalDateTime data;
 
-    @Column(name = "ate")
+    @Field("ate")
     private LocalDateTime ate;
 }

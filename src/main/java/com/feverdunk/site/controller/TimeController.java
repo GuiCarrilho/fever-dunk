@@ -31,21 +31,21 @@ public class TimeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Time> getById(@PathVariable Long id){
+    public ResponseEntity<Time> getById(@PathVariable String id){
         Time time = timeService.findById(id);
 
         return ResponseEntity.ok(time);
     }
 
-    @GetMapping("/manager")
+    /*@GetMapping("/manager")
     public ResponseEntity<Time> getByManager(){
         Time time = timeService.findByManager();
 
         return ResponseEntity.ok(time);
     }
-
+*/
     @GetMapping("/liga/{ligaId}")
-    public ResponseEntity<List<Time>> getTimeFromLiga(@PathVariable Long ligaId){
+    public ResponseEntity<List<Time>> getTimeFromLiga(@PathVariable String ligaId){
         List<Time> time = timeService.getTimeFromLiga(ligaId);
 
         return ResponseEntity.ok(time);
@@ -72,7 +72,7 @@ public class TimeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable String id){
         timeService.delete(id);
 
         return ResponseEntity.noContent().build();

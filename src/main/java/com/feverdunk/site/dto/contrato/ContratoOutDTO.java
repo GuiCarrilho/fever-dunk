@@ -18,8 +18,8 @@ public class ContratoOutDTO {
 
     private LocalDateTime vendidoEm;
 
-    private Long jogadorId;
+    private String jogadorId;
 
-    private Long timeId;
+    private String timeId;
 
 }

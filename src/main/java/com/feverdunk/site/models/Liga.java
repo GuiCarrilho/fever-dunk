@@ -4,39 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity
-@Table(name = "ligas")
+@Document(collection = "ligas")
+@Data
 public class Liga {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "liga_id")
-    private Long id;
 
-    @Column(name = "descricao")
+    @Id
+    private String id;
+
+    @Field("descricao")
     @NotBlank
     private String descricao;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "liga_senha")
+    @Field("liga_senha")
     @NotBlank
-    private Long senha;
+    private String senha;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
     private Manager manager;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "liga")
     private List<Participacao> participacao;
 }

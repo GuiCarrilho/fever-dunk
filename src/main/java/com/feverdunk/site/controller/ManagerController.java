@@ -42,7 +42,7 @@ public class ManagerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ManagerOutDTO> getById(@PathVariable Long id){
+    public ResponseEntity<ManagerOutDTO> getById(@PathVariable String id){
         Manager manager = managerService.findById(id);
         ManagerOutDTO dto = entityToOut(manager);
 
@@ -74,7 +74,7 @@ public class ManagerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable String id){
         managerService.delete(id);
 
         return ResponseEntity.noContent().build();
@@ -113,8 +113,8 @@ public class ManagerController {
 
         try {
             dto.setTimeId(manager.getTime().getId());
+
         }catch (NullPointerException ex){
-            dto.setTimeId(-1L);
         }
 
         return dto;

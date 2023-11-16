@@ -5,59 +5,50 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "jogadores")
+@Document(collection = "jogadores")
+@Data
 public class Jogador {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "jogador_id")
-    private Long id;
 
-    @Column(name = "jogador_nome")
+    @Id
+    private String id;
+
+    @Field("jogador_nome")
     @NotBlank
     private String nome;
 
-    @Column(name = "posicao")
+    @Field("jogador_posicao")
     @NotBlank
     private String posicao;
 
-    @Column(name = "altura")
-    @NotNull
-    @Min(value = 1)
+    @Field("jogador_altura")
+    @Min(1)
     private int altura;
 
-    @Column(name = "idade")
-    @NotNull
-    @Min(value = 1)
+    @Field("idade")
+    @Min(1)
     private int idade;
 
-    @Column(name = "valor")
-    @NotNull
-    @Min(value = 0)
+    @Field("valor")
+    @Min(0)
     private int valor;
 
-    @Column(name = "time_real")
+    @Field("time_real")
     @NotBlank
     private String timeReal;
 
-    @Column(name = "jogador_pontuacao")
-    @NotNull
-    @Min(value = 0)
+    @Field("pontucao")
+    @Min(0)
     private int pontuacao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "jogador")
+    @Field("contrato")
+    private List<Contrato> contratos;
+
+    @Field("desempenho")
     private List<Desempenho> desempenhos;
 }
-

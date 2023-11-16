@@ -20,7 +20,7 @@ public class DesempenhoService {
 
     public List<Desempenho> getDesempenho() { return desempenhoRepository.findAll(); }
 
-    public Desempenho findById(Long id){
+    public Desempenho findById(String id){
         Optional<Desempenho> desempenho = desempenhoRepository.findById(id);
 
         return desempenho.orElseThrow(() -> new ObjectNotFoundException("Desempenho com id: {" + id + "} não foi encontrado"));
@@ -47,6 +47,6 @@ public class DesempenhoService {
         return desempenhoRepository.save(desempenho);
     }
 
-    public void delete(Long id) { desempenhoRepository.delete(findById(id));}
+    public void delete(String id) { desempenhoRepository.delete(findById(id));}
 
 }

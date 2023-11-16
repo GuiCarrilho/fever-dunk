@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManagerInDTO {
-    private Long id;
+    private String id;
 
     @NotBlank
     private String nome;

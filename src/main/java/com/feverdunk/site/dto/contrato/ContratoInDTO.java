@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ContratoInDTO {
 
-    private Long timeId;
+    private String timeId;
 
-    private Long jogadorId;
+    private String jogadorId;
 }

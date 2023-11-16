@@ -1,65 +1,49 @@
 package com.feverdunk.site.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity
-@Table(name = "Managers")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Document(collection = "managers")
+@Data
 public class Manager {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "manager_id")
-    private Long id;
+    private String id;
 
-    @Column(name = "manager_nome")
+    @Field("manager_nome")
     @NotBlank
     private String nome;
 
-    @Column(name = "email", unique = true)
+    @Field("manager_email")
     @NotBlank
-    @Email
     private String email;
 
-    @Column(name = "manager_senha")
+    @Field("manager_senha")
     @NotBlank
     private String senha;
 
-    @Column(name = "dinheiro")
+    @Field("dinheiro")
     @NotNull
     private int dinheiro;
 
-    @Column(name = "premium")
+    @Field("premium")
     @NotNull
     private boolean premium;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "manager_id_time", referencedColumnName = "time_id")
+    @Field("manager_id_time")
+    @DBRef
     private Time time;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "manager")
-    private List<Liga> liga;
-
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "perfil", nullable = false)
+    @Field("perfil")
     private Set<Integer> perfis;
 
     public Set<Perfil> getPerfis(){

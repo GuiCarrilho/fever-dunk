@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ManagerOutDTO {
-    private Long id;
+    private String id;
 
     private String nome;
 
@@ -24,5 +24,5 @@ public class ManagerOutDTO {
 
     private boolean premium;
 
-    private Long timeId;
+    private String timeId;
 }

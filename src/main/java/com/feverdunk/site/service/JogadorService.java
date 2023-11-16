@@ -28,14 +28,14 @@ public class JogadorService {
     }
 
 
-    public Jogador findById(Long id){
+    public Jogador findById(String id){
         Optional<Jogador> jogador = jogadorRepository.findById(id);
 
         return jogador.orElseThrow(() -> new ObjectNotFoundException("Jogador com id: {" + id + "} não foi encontrado"));
     }
 
-    public List<Jogador> findAllByTimeId(Long timeId){
-        return jogadorRepository.findAllByTimeId(timeId);
+    public List<Jogador> findAllByTimeId(String timeId){
+        return jogadorRepository.findAllByContratos_Time_id(timeId);
     }
 
     @Transactional
@@ -50,7 +50,7 @@ public class JogadorService {
         return jogadorRepository.save(jogadorNovo);
     }
 
-    public void delete(Long id){
+    public void delete(String id){
         jogadorRepository.delete(findById(id));
     }
 

@@ -51,7 +51,7 @@ public class ManagerService {
         }
     }
 
-    public Manager findById(Long id) {
+    public Manager findById(String id) {
         UserSpringSecurity userSpringSecurity = authenticated();
         if (Objects.nonNull(userSpringSecurity) && (userSpringSecurity.hasHole(Perfil.ADMIN) || id.equals(userSpringSecurity.getId()))) {
             Optional<Manager> manager = this.managerRepository.findById(id);
@@ -67,7 +67,6 @@ public class ManagerService {
     public Manager create(Manager manager) {
         manager.setId(null);
         manager.setSenha(this.bCryptPasswordEncoder.encode(manager.getSenha()));
-        manager.setTime(new Time());
         manager.setPerfis(Stream.of(Perfil.USER.getCodigo()).collect(Collectors.toSet()));
         return this.managerRepository.save(manager);
     }
@@ -97,7 +96,7 @@ public class ManagerService {
         }
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         this.managerRepository.delete(this.findById(id));
     }
 }

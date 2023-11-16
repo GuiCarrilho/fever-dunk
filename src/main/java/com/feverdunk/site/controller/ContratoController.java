@@ -2,6 +2,8 @@ package com.feverdunk.site.controller;
 
 import com.feverdunk.site.dto.contrato.ContratoInDTO;
 import com.feverdunk.site.dto.contrato.ContratoOutDTO;
+import com.feverdunk.site.models.Jogador;
+import com.feverdunk.site.models.Time;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Contrato;
@@ -36,7 +38,7 @@ public class ContratoController {
     }
 
     @GetMapping("/time/{id}")
-    public ResponseEntity<List<ContratoOutDTO>> getContratoByTimeId(@PathVariable Long id) {
+    public ResponseEntity<List<ContratoOutDTO>> getContratoByTimeId(@PathVariable String id) {
         List<Contrato> contratos = contratoService.findAllByTimeId(id);
         List<ContratoOutDTO> contratosDto = contratos.stream()
                 .map(this::entityToOut).collect(Collectors.toList());
@@ -44,7 +46,7 @@ public class ContratoController {
     }
 
     @GetMapping("/jogador/{id}")
-    public ResponseEntity<List<ContratoOutDTO>> getContratoByJogadorId(@PathVariable Long id) {
+    public ResponseEntity<List<ContratoOutDTO>> getContratoByJogadorId(@PathVariable String id) {
         List<Contrato> contratos = contratoService.findAllByJogadorId(id);
         List<ContratoOutDTO> contratosDto = contratos.stream()
                 .map(this::entityToOut).collect(Collectors.toList());
@@ -59,9 +61,9 @@ public class ContratoController {
 
     @PutMapping
     public ResponseEntity<ContratoOutDTO> put(@RequestBody @Validated ContratoInDTO dto) {
-        ContratoId contratoId = inToEntity(dto).getId();
+        String contratoId = inToEntity(dto).getId();
         Contrato contrato = inToEntity(dto);
-        if(contratoId.getTimeId() != null && contratoId.getJogadorId() != null) {
+        if(contrato.getTime().getId() != null && contrato.getJogador().getId() != null) {
             try {
                 getContratoByTimeId(dto.getTimeId());
                 getContratoByJogadorId(dto.getJogadorId());
@@ -76,8 +78,8 @@ public class ContratoController {
     }
 
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody ContratoId id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         contratoService.delete(id);
 
         return ResponseEntity.noContent().build();
@@ -98,13 +100,14 @@ public class ContratoController {
         if(dto.getJogadorId() == null || dto.getTimeId() == null){
             throw new IllegalArgumentException();
         }
-        try {
-            contratoId.setTimeId(dto.getTimeId());
-            contratoId.setJogadorId(dto.getJogadorId());
-            contrato.setId(contratoId);
-        } catch (NullPointerException ex) {
+        Time time = new Time();
+        time.setId(dto.getTimeId());
+        Jogador jogador = new Jogador();
+        jogador.setId(dto.getJogadorId());
 
-        }
+        contrato.setTime(time);
+        contrato.setJogador(jogador);
+
 
         return contrato;
     }

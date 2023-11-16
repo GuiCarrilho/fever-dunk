@@ -3,38 +3,33 @@ package com.feverdunk.site.models;
 import com.feverdunk.site.models.compositeIDs.ContratoId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
-@Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "contratos")
+@Document(collection = "contratos")
+@Data
 public class Contrato {
 
-    @EmbeddedId
-    private ContratoId id;
-    
-    @ManyToOne
-    @MapsId("jogadorId")
-    @JoinColumn(name = "jogador_id_contrato")
+    @Id
+    private String id;
+
+    @Field("jogador_id_contrato")
+    @DBRef
     private Jogador jogador;
 
-    @ManyToOne
-    @MapsId("timeId")
-    @JoinColumn(name = "time_id_contrato",  referencedColumnName = "time_id")
+    @Field("time_id_contrato")
+    @DBRef
     private Time time;
 
-    @Column(name = "adquirido_em")
+    @Field("adquirido_em")
     @NotNull
     private LocalDateTime adquiridoEm;
 
-    @Column(name = "vendido_em")
+    @Field("vendido_em")
     private LocalDateTime vendidoEm;
 }

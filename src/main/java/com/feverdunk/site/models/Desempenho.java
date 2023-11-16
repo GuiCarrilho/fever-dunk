@@ -3,50 +3,44 @@ package com.feverdunk.site.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Table(name = "desempenhos")
+@Document(collection = "desempenhos")
+@Data
 public class Desempenho {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "desempenho_id")
-    private Long id;
 
-    @Column(name = "desempenho_data")
+    @Id
+    private String id;
+
+    @Field("desempenho_data")
     @NotNull
     private LocalDate data;
 
-    @Column(name = "pontos")
-    @NotNull
+    @Field("pontos")
     @Min(value = 0)
     private int pontos;
 
-    @Column(name = "rebotes")
+    @Field("rebotes")
     @NotNull
     @Min(value = 0)
     private int rebotes;
 
-    @Column(name = "assistencias")
+    @Field("assistencias")
     @NotNull
     @Min(value = 0)
     private int assistencias;
 
-    @Column(name = "min_jogados")
+    @Field("min jogados")
     @NotNull
     @Min(value = 0)
     private int minJogados;
 
-    @ManyToOne
-    @JoinColumn(name = "desempenho_id_jogador")
+    @Field("desempenho_jogador_id")
+    @DBRef
     private Jogador jogador;
 }
