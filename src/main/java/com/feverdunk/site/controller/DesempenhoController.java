@@ -34,11 +34,9 @@ public class DesempenhoController {
         return ResponseEntity.ok(desempenho);
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<Desempenho> post(@RequestBody @Validated Desempenho desempenho) { return criarDesempenho(desempenho); }
 
-    @PreAuthorize("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<Desempenho> put(@RequestBody @Validated Desempenho desempenho){
         try{
@@ -47,12 +45,11 @@ public class DesempenhoController {
             Desempenho desempenhoAtualizado = desempenhoService.update(desempenho);
 
             return ResponseEntity.ok(desempenhoAtualizado);
-        }catch (ObjectNotFoundException ex){
+        }catch (RuntimeException ex){
             return criarDesempenho(desempenho);
         }
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id){
         desempenhoService.delete(id);

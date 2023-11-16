@@ -1,13 +1,17 @@
 package com.feverdunk.site.service;
 
+import com.feverdunk.site.exceptions.AuthorizationException;
 import com.feverdunk.site.exceptions.ObjectNotFoundException;
 import com.feverdunk.site.models.Jogador;
+import com.feverdunk.site.models.Perfil;
 import com.feverdunk.site.repository.JogadorRepository;
+import com.feverdunk.site.security.UserSpringSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -38,19 +42,38 @@ public class JogadorService {
 
     @Transactional
     public Jogador create(Jogador jogador){
-        jogador.setId(null);
+        if(ehAdmin()) {
+            jogador.setId(null);
 
-        return jogadorRepository.save(jogador);
+            return jogadorRepository.save(jogador);
+        }
+        else{
+            throw new AuthorizationException("Acesso negado.");
+        }
     }
 
     @Transactional
     public Jogador update(Jogador jogadorNovo){
-        return jogadorRepository.save(jogadorNovo);
+        if(ehAdmin()){
+            return jogadorRepository.save(jogadorNovo);
+        }
+        else{
+            throw new AuthorizationException("Acesso negado.");
+        }
     }
 
     public void delete(String id){
-        jogadorRepository.delete(findById(id));
+        if(ehAdmin()) {
+            jogadorRepository.delete(findById(id));
+        }
+        else {
+            throw new AuthorizationException("Acesso negado.");
+        }
     }
 
+    private boolean ehAdmin(){
+        UserSpringSecurity userSpringSecurity = ManagerService.authenticated();
+        return Objects.nonNull(userSpringSecurity) && userSpringSecurity.hasHole(Perfil.ADMIN);
+    }
 
 }

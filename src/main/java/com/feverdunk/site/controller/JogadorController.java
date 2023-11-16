@@ -42,13 +42,11 @@ public class JogadorController {
         return ResponseEntity.ok(jogadores);
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<Jogador> post(@RequestBody @Validated Jogador jogador){
         return criarJogador(jogador);
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<Jogador> put(@RequestBody @Validated Jogador jogador){
         try{
@@ -63,7 +61,6 @@ public class JogadorController {
         }
     }
 
-    @PreAuthorize("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id){
         jogadorService.delete(id);
