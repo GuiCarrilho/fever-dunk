@@ -1,4 +1,4 @@
-# Autor
+# Autores
 Projeto Desenvolvido por Celio Ferreira, Gabriel Gullo, Guilherme do Nascimento e Rick Porto. 
 
 # Sobre o Projeto
